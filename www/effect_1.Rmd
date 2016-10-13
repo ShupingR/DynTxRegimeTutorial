@@ -1,9 +1,8 @@
-### Causal Effect
-A question  clinicians often ask is whether a treatment causes changes in a response of interest, or what is the **causal effect** of treatment on the response of interest. For instance, assume that we have carefully designed an exercise plan. We would like to know if following our exercise plan for three months leads to a reduced Body Mass Index (BMI). 
+## Causal Effect
+A question  clinicians often ask is whether a treatment causes changes in a response of interest, or what is the **causal effect** of treatment on the response of interest. For instance, assume that we have carefully designed an exercise plan. We would like to know if following our exercise plan for three months causes reduced Body Mass Index (BMI). If it does, how much is the effect of the exercise plan compared to not following the plan. We give more precise definitions of causal effect below.
+
 
 #### Individual Causal Effect
-
-
 Assume that we have a patient, Rufus. We would like to know the causal effect of treatment for Rufus. In our example, the causal effect compares the BMI measured after following the exercise plan to that measured after not following the exercise plan. But, once Rufus has selected a treatment, we are not able to measure his response under the alternative treatment. How then do we define an individual causal effect? This is where **potential outcomes** come into play.
 
 
@@ -14,12 +13,4 @@ The asterisk is used to denote that these measurements are **potential outcomes*
 
 
 A notational convention that has been established by the field denotes the potential outcome for treatment $A=a$ as $Y^{\mbox{*}}(A=a)$ rather than  $Y^{\mbox{*}}_{A=a}$. Unfortunately, the conventional notation is often confusing for those new to the field and is misinterpreted as meaning that the potential outcome is a *function* of the treatment. To avoid this confusion in the initial introduction of potential outcomes, we opted for the non-standard notation. From this point forward, we will use the established standard. In this way, the causal effect for a binary treatment is defined as $Y^{\mbox{*}}_{A=1} - Y^{\mbox{*}}_{A=0} \equiv Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)$. 
-
-#### Summary
-
-> **Potential outcomes**:
-Potential outcomes are defined as an individual's response if he or she is assigned to a particular level of treatment, $A=a$. Potential outcomes are also called counterfactual random variables because we can only assign one level of treatment to the individual and thus only observe one of them. All of the other potential outcomes under different levels of treatment for that individual are missing.
-
-> **Individual causal effect**: 
-Considering a binary treatment with $A=a_1$ or $a_2$, the difference between the potential outcome under treatment level $A=a_2$ and treatment level $A=a_1$, $Y^{\mbox{*}}(A=a_2) - Y^{\mbox{*}}(A=a_1)$, is defined as the individual causal effect. As we only get to observe one of the potential outcomes, the individual causal effect is not estimable.
 

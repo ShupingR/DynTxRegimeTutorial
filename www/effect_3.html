@@ -118,13 +118,18 @@ $(document).ready(function () {
 </div>
 
 
-<div id="motivation" class="section level2">
-<h2>Motivation</h2>
-<p>Does smoking cigarettes increase the chance of a person getting lung cancer?</p>
-<p>Does sunscreen prevent people from getting skin cancer?</p>
-<p>Does excessive reading or other close work result in nearsightedness?</p>
-<p>These types of cause-effect questions are raised frequently in our day-to-day life. How can we address these questions? You might answer: “We can do hypothesis testing on data collected in a well-designed experiment.” However, you suddenly recall that your STAT 101 professor said correlation <span class="math inline">\(\neq\)</span> causation. Then, s/he moved on, taught you all about linear regressions, and left you no means to deal with these cause-effect questions.</p>
-<p>This tutorial aims to help you get familiar with the methods for estimating optimal treatment regimes in <a href="https://cran.r-project.org/web/packages/DynTxRegime/index.html">the DynTxRegime R package</a>. Before that, we briefly introduce the basic causal inference concepts and principles that underlie valid clinical studies on dynamic treatment regimes. We will try to statistically address the question “Does treatment A cause effect B?” following the causal inference framework of Neyman, Rubin, Robins, and others. To keep the concepts as simple as possible in the beginning, we limit our discussion to point exposure studies, i.e., single-stage decision problems. Once the main ideas and concepts are clear in this setting, we will move on to dynamic treatment regimes, i.e., multiple-stage decision problems.</p>
+<div id="causal-effect-contd" class="section level2">
+<h2>Causal Effect (Cont’d)</h2>
+<p>To summarize what we have learned about the causal effect from Rufus’ family example, we emphasize the three important concepts mentioned.</p>
+<blockquote>
+<p><strong>Potential outcomes</strong>: Potential outcomes are defined as an individual’s response if he or she is assigned to a particular level of treatment, <span class="math inline">\(A=a\)</span>. Potential outcomes are also called counterfactual random variables because we can only assign one level of treatment to the individual and thus only observe one of them. All of the other potential outcomes under different levels of treatment for that individual are missing.</p>
+</blockquote>
+<blockquote>
+<p><strong>Individual causal effect</strong>: Considering a binary treatment with <span class="math inline">\(A=a_1\)</span> or <span class="math inline">\(a_2\)</span>, the difference between the potential outcome under treatment level <span class="math inline">\(A=a_2\)</span> and treatment level <span class="math inline">\(A=a_1\)</span>, <span class="math inline">\(Y^{\mbox{*}}(A=a_2) - Y^{\mbox{*}}(A=a_1)\)</span>, is defined as the individual causal effect. As we only get to observe one of the potential outcomes, the individual causal effect is not estimable.</p>
+</blockquote>
+<blockquote>
+<p><strong>Average causal effect</strong>: Considering a binary treatment with <span class="math inline">\(A=0\)</span> or <span class="math inline">\(1\)</span>, the average of individual causal effect <span class="math inline">\(E\{ Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)\}\)</span>, is defined as the average causal effect of the population of interest. It equals to the difference between the population-level average potential outcome under treatment level <span class="math inline">\(A=1\)</span> and under treatment level <span class="math inline">\(A=0\)</span>.</p>
+</blockquote>
 </div>
 
 

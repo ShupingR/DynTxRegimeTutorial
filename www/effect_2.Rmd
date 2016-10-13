@@ -1,20 +1,22 @@
 ## Causal Effect (Cont'd)
 We have just learned that identifying individual causal effects is generally not possible due to missing data. However, one might ask if an aggregate causal effect can be defined instead for a population of individuals. To do so, we return to the notion of potential outcomes.
 
-##### Average Causal Effect
+
+#### Average Causal Effect
 Let's return to our previous example. Rufus would like to know if on average, the exercise routine reduces individual BMI. Depending on the outcome, he might reconsider his treatment selection! Rufus introduces the plan to all of his family members; five people in total. Through the multi-universe lens, we can preview everyone's potential outcomes under both treatment levels.
+
 
 | Name      |  IMB under $A=1$  |   IMB under $A=0$  |
 |:---------:|:-----------------:|:------------------:|
 | Rufus     | 24                | 27                 | 
-| Linda     | 20                | 19.5               | 
+| Linda     | 20                | 19.5               |
 | Jeff      | 35                | 32                 |
 | Paul      | 32                | 29                 |
-| Jessy     | 31                | 29                |
+| Jessy     | 31                | 29                 |
 
 
 With this information, we can calculate the average of everyone's individual causal effect, $E\left\{Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)\right\}$. Recall that the expectation of differences equals the differences of expectations, and thus 
-$$E\left\{Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)\right\} = E\left\{Y^{\mbox{*}}(A=1) \right\} - E\left\{Y^{\mbox{*}}(A=0)\right\}$$. 
+$$E\left\{Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)\right\} = E\left\{Y^{\mbox{*}}(A=1) \right\} - E\left\{Y^{\mbox{*}}(A=0)\right\}.$$ 
 We formalize it as
 $$\delta^{\mbox{*}} = E\left\{Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)\right\} = E\left\{Y^{\mbox{*}}(A=1) \right\} - E\left\{Y^{\mbox{*}}(A=0)\right\}.$$
 
@@ -28,14 +30,3 @@ $$\delta^{\mbox{*}} = 28.4 - 27.3 = 1.1.$$ Our exercise plan is not as effective
 
 However, in reality, we can only assign one of the treatment levels to each individual. This means that we can only observe one of the potential outcomes for each row in the table above. Missing data techniques must be employed to estimate the average causal effect.
 
-### Summary
-
-> **Potential outcomes**:
-Potential outcomes are defined as an individual's response if he or she is assigned to a particular level of treatment, $A=a$. Potential outcomes are also called counterfactual random variables because we can only assign one level of treatment to the individual and thus only observe one of them. All of the other potential outcomes under different levels of treatment for that individual are missing.
-
-> **Individual causal effect**: 
-Considering a binary treatment with $A=a_1$ or $a_2$, the difference between the potential outcome under treatment level $A=a_2$ and treatment level $A=a_1$, $Y^{\mbox{*}}(A=a_2) - Y^{\mbox{*}}(A=a_1)$, is defined as the individual causal effect. As we only get to observe one of the potential outcomes, the individual causal effect is not estimable.
-
-
-> **Average causal effect**: 
-Considering a binary treatment with $A=0$ or $1$, the average of individual causal effect  $E\{ Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)\}$, is defined as the average causal effect of the population of interest. It equals to the difference between the population-level average potential outcome under treatment level $A=1$ and under treatment level $A=0$.

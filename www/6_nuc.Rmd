@@ -1,0 +1,25 @@
+##### No Unmeasured Confounders Assumption (NUC):
+In marginally randomized studies, we assume that independence between treatment assignment and all the potential outcomes. That is
+
+$$\left\{ Y^{*}(1), Y^{*}(-1) \right\} \!\perp\!\!\!\perp A.$$
+
+This assumption is reasonable under marginally randomized studies, as treatment assignment is completely random without knowing the potential outcomes a priori. Again,for a two-level treatment, we can only assign one level of treatment to the patient, and the potential outcome under the other treatment level is missing. Marginally randomized studies ensure that the potential outcomes are missing completely at random. This independence is referred as **exchangeability** by Robins.  
+
+We need to be careful with the distinction between the independence of potential outcomes and the independence of observed outcomes. That is
+$$\left\{ Y^{*}(1), Y^{*}(-1) \right\} \!\perp\!\!\!\perp A \not \Rightarrow Y \!\perp\!\!\!\perp A.$$
+
+In fact, $Y$ is dependent on $A$, because of the SUTVA assumption $Y = Y^{*}(1)\mathbf{I}(A=1) + Y^{*}(0)\mathbf{I}(A=0)$.
+
+In conditionally randomized studies, we take the **conditional exchangeability** assumption by Robins. That is the potential outcomes $\left\{ Y^{*}(1), Y^{*}(-1)\right\}$ are conditionally independent of treatment assignment $A$ given a patient characteristic information $\boldsymbol{X}$. That is
+$$\left\{ Y^{*}(1), Y^{*}(-1) \right\} \!\perp\!\!\!\perp A \, | \,  \boldsymbol{X}.$$
+
+This assumption is similar to the **No Unmeasured Confounders** assumption (NUC) in observational studies, which is referred as **strong ignorability** by Rubin. In this experimental setting, we can think of this assumptions in the aid of pretreatment covariates, $\boldsymbol{X}^{*}$. A pretreatment covariate $\boldsymbol{X}^{*}$ counts for prognostic variation. If we accept that clinicians make treatment decisions only based on $\boldsymbol{X}^{*}$, it is reasonable to assume that all the potential outcomes of a patient are conditionally independent of treatment assignment given $\boldsymbol{X}^{*}$, i.e.,
+ $$\left\{ Y^{*}(1), Y^{*}(-1) \right\} \!\perp\!\!\!\perp A \, | \,  \boldsymbol{X}^{*}.$$
+
+If we are willing to believe that the observed covariate $\boldsymbol{X}$ contains all the information in the pretreatment covariate $\boldsymbol{X}^{*}$, i.e., $\boldsymbol{X}^{*} \in \boldsymbol{X}$. Then, we have the no unmeasured cofounders assumptions as
+$$\left\{ Y^{*}(1), Y^{*}(-1) \right\} \!\perp\!\!\!\perp A \, | \,  \boldsymbol{X}.$$
+However, in reality, it is difficulty to verify this assumption, as we often do not know all the factors that influence the clinical conditions.
+
+Reference:
+Rubin 1978
+Robins 1997

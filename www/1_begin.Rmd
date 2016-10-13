@@ -1,0 +1,11 @@
+## Motivation
+
+Does smoking cigarettes increase the chance of a person getting lung cancer? 
+
+Does sunscreen prevent people from getting skin cancer?    
+
+Does excessive reading or other close work result in nearsightedness? 
+
+These types of cause-effect questions are raised frequently in our day-to-day lives. How can we address these questions? You might answer: "We can do hypothesis testing on data collected in a well-designed experiment." However, you suddenly recall that your STAT 101 professor said correlation $\neq$ causation. Then, s/he moved on, taught you all about linear regressions, and left you no means to deal with these cause-effect questions. 
+
+In this tutorial, our aim is to introduce the basic causal inference concepts and principles that underlie valid clinical studies on dynamic treatment regimes. We will try to statistically address the question "Does action A cause effect B?" following the causal inference framework of Neyman, Rubin, Robins, and others. To keep the concepts as simple as possible in the beginning, we limit our discussion to point exposure studies, i.e., single-stage decision problems. Once the main ideas and concepts are clear in this setting, we will move on to dynamic treatment regimes, i.e., multiple-stage decision problems.

@@ -1,0 +1,35 @@
+### Causal Effect (Cont'd)
+
+In the previous section, we learned that identifying individual causal effects is generally not possible due to missing data. However, one might ask if an aggregate causal effect can be defined instead for a population of individuals. To do so, we return to the notion of potential outcomes.
+
+##### Average Causal Effect
+Let's return to our previous example. Rufus would like to know if on average, the exercise routine reduces individual BMI. Depending on the outcome, he might reconsider his treatment selection! Rufus introduces the plan to all of his family members; five people in total. Through the multi-universe lens, we can preview everyone's potential outcomes under both treatment levels.
+
+| Name    | IMB under $A=1$ | IMB under $A=0$ |
+|---------| :--------------:|:---------------:|
+| Rufus   | 24              | 27              | 
+| Linda   | 20              | 19.5            | 
+| Jeff    | 35              | 32              |
+| Paul    | 32              | 29              |
+| Jessy   | 31              | 29              |
+
+
+With this information, we can calculate the average of everyone's individual causal effect, $E\left\{Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)\right\}$. Recall that the expectation of differences equals the differences of expectations, and thus 
+$$E\left\{Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)\right\} = E\left\{Y^{\mbox{*}}(A=1) \right\} - E\left\{Y^{\mbox{*}}(A=0)\right\}$$. 
+We formalize it as
+$$\delta^{\mbox{*}} = E\left\{Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)\right\} = E\left\{Y^{\mbox{*}}(A=1) \right\} - E\left\{Y^{\mbox{*}}(A=0)\right\}.$$
+
+$\delta^{\mbox{*}}$ is referred as the average causal effect of the population of interest. 
+
+If we had access to all of the potential outcomes, the average causal effect would be 
+$$E\left\{Y^{\mbox{*}}(A=1) \right\} = \frac{1}{5} \sum_{N=1}^5 Y^{\mbox{*}}(A=1) = \frac{1}{5} \left( 24 + 20+35+32+31\right) = \frac{1}{5} (142) = 28.4$$. 
+$$E\left\{Y^{\mbox{*}}(A=0) \right\} = \frac{1}{5} \sum_{N=1}^5 Y^{\mbox{*}}(A=1) = \frac{1}{5} \left( 27+19.5+32+29+29\right) = \frac{1}{5} (136.5) = 27.3.$$ 
+Thus,
+$$\delta^{\mbox{*}} = 28.4 - 27.3 = 1.1.$$ Our exercise plan is not as effective as we had hoped!
+
+However, in reality, we can only assign one of the treatment levels to each individual. This means that we can only observe one of the potential outcomes for each row in the table above. Missing data techniques must be employed to estimate the average causal effect.
+
+### Summary
+
+> **Average causal effect**: 
+Considering a binary treatment with $A=0$ or $1$, the average of individual causal effect  $E\{ Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)\}$, is defined as the average causal effect of the population of interest. It equals to the difference between the population-level average potential outcome under treatment level $A=1$ and under treatment level $A=0$.

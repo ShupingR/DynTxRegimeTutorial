@@ -1,53 +1,64 @@
 library(markdown)
-shinyUI(fluidPage(
-  
-  titlePanel("Dynamic Treatment Regimes"),
-  
-  navlistPanel(well = TRUE, fluid = TRUE, widths = c(3, 8),
-    "Contents",
-    "Introduction",
-     tabPanel("Motivation",
+library(shiny)
+library(shinydashboard)
+
+header <- dashboardHeader(title = "Dynamic Treatment Regimes", disable = FALSE)
+
+sidebar <- dashboardSidebar(
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "custom.css"),
+    tags$script(src = "custom.js")
+  ),
+  sidebarMenu(
+    menuItem(text = "KPIs",
+             menuItem(text = "Beginning", tabName = "beginning"),
+             menuItem(text = "Point Exposure Studies", tabName = "pes"),
+             menuItem(text = "Causal Effect", tabName = "ce"),
+             menuItem(text = "Necessary Assumptions", tabName = "na"),
+             menuSubItem("SUTVA", tabName = "sutva")
+    )
+  )
+)
+
+body <- dashboardBody(
+  tabItems(
+    tabItem(tabName = "beginning",
             withMathJax(includeMarkdown("./www/1_begin.Rmd"))
     ),
-    tabPanel("Point Exposure Studies",
-             withMathJax(includeMarkdown("./www/2_point.Rmd"))
-    ),
-   # tabPanel("Causal Effect",
-   #         withMathJax(includeMarkdown("./www/3_effect.Rmd"))
-   # ),
-   # tabPanel("Causal Effect (Cont'd)",
-   #          withMathJax(includeMarkdown("./www/3.5_effect.Rmd"))
-   # ),
-    tabPanel("Optimal Treatment Regimes in Point Exposure Studies",
-             #h3("This is the fourth panel")
-             withMathJax(includeMarkdown("./www/9_optimal.Rmd"))
-    ),
-    tabPanel("Three Necessary Assumptions",
-             withMathJax(includeMarkdown("./www/4_assumption.Rmd")),
-             tabsetPanel(  tabPanel("SUTVA",
-                                    withMathJax(includeMarkdown("./www/5_sutva.Rmd"))),
-                           tabPanel("NUC", 
-                                    withMathJax(includeMarkdown("./www/6_nuc.Rmd"))),
-                           tabPanel("Positivity",
-                                    withMathJax(includeMarkdown("./www/7_positivity.Rmd")))
-            )),
-    #tabPanel("Estimating Average Causal Effect",
-             #h3("This is the fourth panel")
-    #         withMathJax(includeMarkdown("./www/8_assumption2.Rmd"))
-    #),
-
-    "Methods",
-    tabPanel("Q-learning in point exposure studies",
-             withMathJax(includeMarkdown("./www/10_qlearning.Rmd"))#,
-   # tabsetPanel(tabPanel("Q functions", 
-  #                       withMathJax(includeMarkdown("./www/qfunction.Rmd"))),
-   #             tabPanel("One-stage Q-learning",
-  #                       withMathJax(includeMarkdown("./www/qlearning2.Rmd"))),
-   #             tabPanel("One-stage Q-learning (Con't)",
-  #                       withMathJax(includeMarkdown("./www/qlearning3.Rmd")))
-               # )
-    ),
-  tabPanel("Q-learning in point exposure studies",
-           withMathJax(includeMarkdown("./www/10_qlearning.Rmd"))#,
-  ))
-))
+    tabItem(tabName = "pes",
+            withMathJax(includeMarkdown("./www/2_point.Rmd"))),
+    
+    tabItem(tabName = "ce",
+            withMathJax(includeMarkdown("./www/3_effect.Rmd"))),
+    
+    tabItem(tabName = "opt",
+            withMathJax(includeMarkdown("./www/9_optimal.Rmd")),
+            
+            tabItem(tabName = "na",
+                    withMathJax(includeMarkdown("./www/4_assumption.Rmd"))),
+            
+            tabItem(tabName = "sutva",
+                    withMathJax(includeMarkdown("./www/5_sutva.Rmd")))
+            #tabsetPanel(  tabPanel("SUTVA",
+            #withMathJax(includeMarkdown("./www/5_sutva.Rmd"))),
+            #tabPanel("NUC",
+            #withMathJax(includeMarkdown("./www/6_nuc.Rmd"))),
+            #tabPanel("Positivity",
+            #withMathJax(includeMarkdown("./www/7_positivity.Rmd")))
+            #"Methods",
+            #tabPanel("Q-learning in point exposure studies",
+            #withMathJax(includeMarkdown("./www/10_qlearning.Rmd"))#,
+    )
+  )
+)
+  
+  dashboardPage(header, sidebar, body, tags$head(tags$style(HTML('
+                                                                 .skin-blue .main-sidebar {
+                                                                 background-color: #666666;
+                                                                 }
+                                                                 .skin-blue .sidebar-menu>li.active>a, .skin-blue .sidebar-menu>li:hover>a {
+                                                                 background-color: #444444;
+                                                                 }
+                                                                 '))))
+  
+  

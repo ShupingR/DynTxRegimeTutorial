@@ -1,0 +1,22 @@
+## Three Necessary Assumptions (Cont'd)
+Equipped with the three key assumptions above, we can now use observed data $(\boldsymbol{X}, A, Y)$ to infer the distribution of $(\boldsymbol{X}, Y^*(0), Y^*(1))$.
+
+Under these assumptions, we can prove that, 
+$$E\{ Y^* (a) \} = E( Y \mid A=a ) \text{, for } a = 0, 1.$$
+This means that the conditional mean of the observed outcome $Y$ given treatment assignment $A=a$ is equal to the average of the potential outcome under treatment assignment $A=a$.
+
+Therefore, we have that 
+$$E\{ Y^*(1) \} - E\{ Y^*(0) \} = E( Y \mid A=1 ) - E( Y \mid A=0 ).$$
+That is the average observed treatment difference is equal to the average causal treatment effect under these assumptions.
+
+For experiments with stratification, we have that
+$$E\{ Y^{*}(a) \mid \boldsymbol{X}=\boldsymbol{x}\} = E\{ Y \mid \boldsymbol{X}=\boldsymbol{x}, A=a\}\text{, for } a=0,1.$$
+That is the conditional expectation of the potential outcome under treatment $A=a$, $Y^{*}(a)$, given the covariate $\boldsymbol{X}=\boldsymbol{x}$ equals to the conditional expectation of the observed response give the covariate $\boldsymbol{X}=\boldsymbol{x}$ and the treatment $A=a$.
+
+Then, we can calculate the stratum-specific causal treatment effect for patients with the same covariate $\boldsymbol{X} =\boldsymbol{x}$ as
+$$E\{ Y^{*}(1) \mid \boldsymbol{X}=\boldsymbol{x}\} - E\{ Y^{*}(0) \mid \boldsymbol{X}=\boldsymbol{x}\} = E\{ Y \mid \boldsymbol{X}=\boldsymbol{x}, A=1\} - E\{ Y \mid \boldsymbol{X}=\boldsymbol{x}, A=0\}.$$
+
+Moreover, the overall average causal treatment effect is calculated as
+$$E\{ Y^*(1) \} - E\{ Y^*(0) \} = E_X \{E\{ Y^{*}(1) \mid \boldsymbol{X}=\boldsymbol{x}\}\} - E_X \{E\{ Y^{*}(0) \mid \boldsymbol{X}=\boldsymbol{x}\}\} = E_X\{E\{ Y \mid \boldsymbol{X}=\boldsymbol{x}, A=1\}\} - E_X\{E\{ Y \mid \boldsymbol{X}=\boldsymbol{x}, A=0\}\},$$
+where $E_X$ means expectation with respect to $\boldsymbol{X}$.
+

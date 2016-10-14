@@ -1,0 +1,16 @@
+## Causal Effect
+A question  clinicians often ask is whether a treatment causes changes in a response of interest, or what is the **causal effect** of treatment on the response of interest. For instance, assume that we have carefully designed an exercise plan. We would like to know if following our exercise plan for three months causes reduced Body Mass Index (BMI). If it does, how much is the effect of the exercise plan compared to not following the plan. We give more precise definitions of causal effect below.
+
+
+#### Individual Causal Effect
+Assume that we have a patient, Rufus. We would like to know the causal effect of treatment for Rufus. In our example, the causal effect compares the BMI measured after following the exercise plan to that measured after not following the exercise plan. But, once Rufus has selected a treatment, we are not able to measure his response under the alternative treatment. How then do we define an individual causal effect? This is where **potential outcomes** come into play.
+
+
+Suppose for the moment that we are able to create two identical universes. In one universe, Rufus chooses to follow the exercise plan ($A=1$). In the other, he chooses not to follow the plan ($A=0$). After three months, we measure Rufus' BMI in both universes, $Y^{\mbox{*}}_{A=0}$ and $Y^{\mbox{*}}_{A=1}$. Because the only difference between the two universes is whether or not Rufus followed the exercise plan, our exercise plan leads to a reduction in BMI if $Y^{\mbox{*}}_{A=0} > Y^{\mbox{*}}_{A=1}$. Furthermore, we can measure the causal effect of our exercise plan using $Y^{\mbox{*}}_{A=1} - Y^{\mbox{*}}_{A=0}$. We say that there is no causal effect for our exercise plan if $Y^{\mbox{*}}_{A=1} -Y^{\mbox{*}}_{A=0} =0$; there is a causal effect if $Y^{\mbox{*}}_{A=1} - Y^{\mbox{*}}_{A=0} \neq 0$. 
+
+
+The asterisk is used to denote that these measurements are **potential outcomes**. In reality, Rufus cannot receive **both** treatments, so only one of $Y^{\mbox{*}}_{A=0}$ and $Y^{\mbox{*}}_{A=1}$ can be observed.  If Rufus follows the exercise plan, we will be able to measure $Y^{\mbox{*}}_{A=1}$, and $Y^{\mbox{*}}_{A=0}$ will be "missing." Similarly, if he does not follow the plan, we will be able to measure $Y^{\mbox{*}}_{A=0}$, and $Y^{\mbox{*}}_{A=1}$ will be "missing." In general, individual causal effects are not estimable because of missing data.
+
+
+A notational convention that has been established by the field denotes the potential outcome for treatment $A=a$ as $Y^{\mbox{*}}(A=a)$ rather than  $Y^{\mbox{*}}_{A=a}$. Unfortunately, the conventional notation is often confusing for those new to the field and is misinterpreted as meaning that the potential outcome is a *function* of the treatment. To avoid this confusion in the initial introduction of potential outcomes, we opted for the non-standard notation. From this point forward, we will use the established standard. In this way, the causal effect for a binary treatment is defined as $Y^{\mbox{*}}_{A=1} - Y^{\mbox{*}}_{A=0} \equiv Y^{\mbox{*}}(A=1) - Y^{\mbox{*}}(A=0)$. 
+

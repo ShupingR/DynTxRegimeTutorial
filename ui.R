@@ -27,7 +27,8 @@ sidebar <- dashboardSidebar(
                 menuSubItem(text = "NUC", tabName = "nuc"),
                 menuSubItem(text = "Positivity", tabName = "pos"),
                 menuSubItem(text = "Necessary Assumptions (Cont'd)", tabName = "na2")
-              )
+              ),
+             menuItem(text = "Optimal Treatment Regimes", tabName = "otr")
              )
   )
 )
@@ -57,22 +58,14 @@ body <- dashboardBody(
     tabItem(tabName = 'pos',
              withMathJax(includeMarkdown("./www/positivity.Rmd"))),
     tabItem(tabName = "na2",
-            withMathJax(includeMarkdown("./www/assumption2.Rmd")))
+            withMathJax(includeMarkdown("./www/assumption2.Rmd"))),
+    tabItem(tabName = "otr",
+            withMathJax(includeMarkdown("./www/optimal.Rmd")))
     
-
-
-
-            #tabsetPanel(  tabPanel("SUTVA",
-            #withMathJax(includeMarkdown("./www/5_sutva.Rmd"))),
-            #tabPanel("NUC",
-            #withMathJax(includeMarkdown("./www/6_nuc.Rmd"))),
-            #tabPanel("Positivity",
-            #withMathJax(includeMarkdown("./www/7_positivity.Rmd")))
+    
             #"Methods",
             #tabPanel("Q-learning in point exposure studies",
             #withMathJax(includeMarkdown("./www/10_qlearning.Rmd"))#,
-#   tabItem(tabName = 'subItemTwo',
- #          h2('Selected Sub-Item Two')
 #   ),
   )
 )

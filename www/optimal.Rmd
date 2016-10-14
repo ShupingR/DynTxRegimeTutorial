@@ -1,5 +1,5 @@
-#### Optimal Treatment Regimes in point exposure studies
-##### Treatment regimes in Point Exposure studies
+## Optimal Treatment Regimes in point exposure studies
+#### Treatment regimes in Point Exposure studies
 Besides estimating average causal treatment effect, another interesting question is how we can use patient characteristics information, covariates $\boldsymbol{X}$, to inform  treatment assignment in a single stage decision making setting. In other words, we can come up with some decision rule that guides what treatment a patient should receive based on his or her value of $\boldsymbol{X}$. This leads us to the concept of treatment regimes. Formally, a treatment regime is defined as a function $d$ that maps the sample space of covariates $\boldsymbol{X}$, $\mathscr{X}$, to the space of all feasible treatments (it is $\{ 0, 1 \}$ in this case). Based on the treatment regime $d$,  a patient with $\boldsymbol{X} = \boldsymbol{x}$ will be assigned to treatment 0, if $d(\boldsymbol{x}) = 0$; and treatment 1, if $d(\boldsymbol{x}) = 1$.
 
 > **The potential outcome of a treatment regime $d$**:
@@ -14,6 +14,7 @@ The very next question is what is an optimal treatment regime for the population
 > **Optimal treatment regimes in point exposure studies**:
 Let's denote the class of all possible treatment regimes, i.e., the class of all functions, by $\mathscr{D}$. An optimal treatment regime $d^{opt} \in \mathscr{D}$ is an treatment rule that maximizes the average potential outcome of the population of interest when everyone in the population is treated according to the regime $d$. Mathmatically, 
 $$d^{opt} = \underset{d \in \mathscr{D}}{\text{argmax}} \,E\left\{ Y^{*}\left( d\right)\right\}.$$
+
 This is equivalent to 
 $$E\left\{ Y^{*} \left( d^{opt} \right) \right\} \ge E\left\{ Y^{*} \left( d \right) \right\}\text{, for all }d \in \mathscr{D}.$$
 

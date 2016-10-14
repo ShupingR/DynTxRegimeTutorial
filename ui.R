@@ -22,11 +22,12 @@ sidebar <- dashboardSidebar(
                       menuSubItem(text = "Observational studies", tabName = "os"),
                       menuSubItem(text = "Notation", tabName = "not")),
              menuItem(text = "Three Necessary Assumptions", 
-                menuSubItem(text = "Necessary Assumptions", tabName = "na"),
+                menuSubItem(text = "Necessary Assumptions", tabName = "na1"),
                 menuSubItem(text = "SUTVA", tabName = "sutva"),
                 menuSubItem(text = "NUC", tabName = "nuc"),
-                menuSubItem(text = "Positivity", tabName = "pos")
-                )
+                menuSubItem(text = "Positivity", tabName = "pos"),
+                menuSubItem(text = "Necessary Assumptions", tabName = "na2")
+              )
              )
   )
 )
@@ -47,14 +48,17 @@ body <- dashboardBody(
             withMathJax(includeMarkdown("./www/point_2.Rmd"))),
     tabItem(tabName = "not",
             withMathJax(includeMarkdown("./www/notation.Rmd"))),
-    tabItem(tabName = "na",
-            withMathJax(includeMarkdown("./www/assumption.Rmd"))),
+    tabItem(tabName = "na1",
+            withMathJax(includeMarkdown("./www/assumption1.Rmd"))),
     tabItem(tabName = "sutva",
             withMathJax(includeMarkdown("./www/sutva.Rmd"))),
-    tabItem(tabName = 'subItemOne',
+    tabItem(tabName = 'nuc',
              withMathJax(includeMarkdown("./www/nuc.Rmd"))),
-    tabItem(tabName = 'subItemTwo',
-             withMathJax(includeMarkdown("./www/positivity.Rmd")))
+    tabItem(tabName = 'pos',
+             withMathJax(includeMarkdown("./www/positivity.Rmd"))),
+    tabItem(tabName = "na2",
+            withMathJax(includeMarkdown("./www/assumption2.Rmd")))
+    
 
 
 

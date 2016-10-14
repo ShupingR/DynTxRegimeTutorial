@@ -17,17 +17,17 @@ sidebar <- dashboardSidebar(
                       menuSubItem(text = "Individual Causal Effect", tabName = "ice"),
                       menuSubItem(text = "Average Causal Effect", tabName = "ace"),
                       menuSubItem(text = "Summary", tabName = "sce")),
-             menuItem(text = "Point Exposure Studies", tabName = "pes"),
-             menuItem(text = "Assumptions", 
+             menuItem(text = "Point Exposure Studies",
+                      menuSubItem(text = "Randomized Studies", tabName = "rs"),
+                      menuSubItem(text = "Observational studies", tabName = "os"),
+                      menuSubItem(text = "Notation", tabName = "not")),
+             menuItem(text = "Three Necessary Assumptions", 
                 menuSubItem(text = "Necessary Assumptions", tabName = "na"),
-                menuSubItem(text = "SUTVA", tabName = "subItemOne"),
-                menuSubItem(text = "NUC", tabName = "subItemTwo"))
-             # menuSubItem(icon = NULL,
-              # sliderInput("inputTest2", "Input test 2", min=0, max=10, value=5,
-              #            width = '95%'))
-                     
-             # menuSubItem(text = "NUC", tabName = "nuc")
-    )
+                menuSubItem(text = "SUTVA", tabName = "sutva"),
+                menuSubItem(text = "NUC", tabName = "nuc"),
+                menuSubItem(text = "Positivity", tabName = "pos")
+                )
+             )
   )
 )
 
@@ -41,21 +41,21 @@ body <- dashboardBody(
             withMathJax(includeMarkdown("./www/effect_2.Rmd"))),
     tabItem(tabName = "sce",
             withMathJax(includeMarkdown("./www/effect_3.Rmd"))),
-    tabItem(tabName = "pes",
-            withMathJax(includeMarkdown("./www/point.Rmd"))),
-    tabItem(tabName = "opt",
-            withMathJax(includeMarkdown("./www/optimal.Rmd"))),
+    tabItem(tabName = "rs",
+            withMathJax(includeMarkdown("./www/point_1.Rmd"))),
+    tabItem(tabName = "os",
+            withMathJax(includeMarkdown("./www/point_2.Rmd"))),
+    tabItem(tabName = "not",
+            withMathJax(includeMarkdown("./www/notation.Rmd"))),
     tabItem(tabName = "na",
             withMathJax(includeMarkdown("./www/assumption.Rmd"))),
+    tabItem(tabName = "sutva",
+            withMathJax(includeMarkdown("./www/sutva.Rmd"))),
     tabItem(tabName = 'subItemOne',
-             withMathJax(includeMarkdown("./www/optimal.Rmd"))),
+             withMathJax(includeMarkdown("./www/nuc.Rmd"))),
     tabItem(tabName = 'subItemTwo',
-             withMathJax(includeMarkdown("./www/begin.Rmd")))
-    # tabItem(tabName = 'subItemThree',
-    #         h2('Selected Sub-Item Three')
-    # ),
-    # tabItem(tabName = "nuc",
-    #         withMathJax(includeMarkdown("./www/2_point.Rmd")))
+             withMathJax(includeMarkdown("./www/positivity.Rmd")))
+
 
 
             #tabsetPanel(  tabPanel("SUTVA",

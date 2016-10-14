@@ -6,7 +6,7 @@ We have just learned that identifying individual causal effects is generally not
 Let's return to our previous example. Rufus would like to know if on average, the exercise routine reduces individual BMI. Depending on the outcome, he might reconsider his treatment selection! Rufus introduces the plan to all of his family members; five people in total. Through the multi-universe lens, we can preview everyone's potential outcomes under both treatment levels.
 
 
-| Name      |  IMB under $A=1$  |   IMB under $A=0$  |
+| Name      |  BMI under $A=1$  |   BMI under $A=0$  |
 |:---------:|:-----------------:|:------------------:|
 | Rufus     | 24                | 27                 | 
 | Linda     | 20                | 19.5               |

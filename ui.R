@@ -26,7 +26,7 @@ sidebar <- dashboardSidebar(
                 menuSubItem(text = "SUTVA", tabName = "sutva"),
                 menuSubItem(text = "NUC", tabName = "nuc"),
                 menuSubItem(text = "Positivity", tabName = "pos"),
-                menuSubItem(text = "Necessary Assumptions", tabName = "na2")
+                menuSubItem(text = "Necessary Assumptions (Cont'd)", tabName = "na2")
               )
              )
   )

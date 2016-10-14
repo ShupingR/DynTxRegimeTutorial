@@ -1,4 +1,4 @@
-##### No Unmeasured Confounders Assumption (NUC):
+## No Unmeasured Confounders Assumption (NUC):
 In marginally randomized studies, we assume that independence between treatment assignment and all the potential outcomes. That is
 
 $$\left\{ Y^{*}(1), Y^{*}(-1) \right\} \!\perp\!\!\!\perp A.$$

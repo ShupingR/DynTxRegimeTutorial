@@ -3,7 +3,7 @@ library(shiny)
 library(shinydashboard)
 library(DynTxRegime)
 library(DT)
-source("/Users/shuping.ruan/GitHub/DynTxRegimeTutorial/datModule.R")
+source("./modules/uploadDat.R")
 
 header <- dashboardHeader(title = "Dynamic Treatment Regimes",titleWidth = 350, disable = FALSE)
 

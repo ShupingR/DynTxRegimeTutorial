@@ -1,7 +1,5 @@
----
-title: "Case Study for AIPWE"
-output: html_document
----
+## Case Study
+
 Here, we present a case study for augmented inverse probability weigthed estimator using the simulated data in the paper.
 
 To get the package ready, here are the few steps needed.

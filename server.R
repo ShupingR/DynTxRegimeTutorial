@@ -10,6 +10,13 @@ shinyServer(
 	  output$orc <- renderUI({
 	    includeHTML("./www/outcome_regress_case.html")})
 	  
+	  output$ac <- renderUI({
+	    includeHTML("./www/aipwe_case.html")})
+	  
+	  output$cc <- renderUI({
+	    includeHTML("./www/class_case.html")})
+	  
+	  
 	  #-----------------------
 	  # Read uploaded csv file
 	  #-----------------------

@@ -1,0 +1,145 @@
+
+## Case Study Estimating Optimal regime form a  Classification perspective
+
+
+Here we present a case study using the classification method to estimate optimal regime. First we load the libraries needed.
+
+
+```{r, messages=F}
+rm(list = ls())
+library(DynTxRegime)
+library(rgenoud)
+library(MASS)
+library(rpart)
+```
+
+
+<!-- create the one-stage BMIdata by deleting month12BMI and A2 -->
+```{r, echo=FALSE}
+# hide month12BMI and A2
+data(bmiData)
+bmiDataOne <- bmiData[ ,c(-6,-8)]
+```
+We use the same dataset, bmiDataOne, which is a simulated trial for weight lose for adolescence. Here is a part of the dataset.
+```{r}
+head(bmiDataOne)
+```
+
+Again, we recast the treatment variables to (0,1).
+```{r,message=FALSE}
+#----------------------------------------------------#
+# Recast treatment variables to (0,1)
+#----------------------------------------------------#
+bmiDataOne$A1[which (bmiDataOne$A1=="MR")] <- 1L
+bmiDataOne$A1[which (bmiDataOne$A1=="CD")] <- 0L
+bmiDataOne$A1 <- as.integer(bmiDataOne$A1)
+```
+
+Again, define the response $Y$ to be the negative 4 month
+change in BMI from baseline, which is formulated as $-100 \times \frac{month4BMI - baselineBMI}{ baselineBMI}$.
+```{r,message=FALSE}
+#----------------------------------------------------#
+# Define response y to be the negative 4 month
+# change in BMI from baseline
+#----------------------------------------------------#
+bmiDataOne$y <- -100*(bmiDataOne[,5] - bmiDataOne[,4])/bmiDataOne[,4]
+```
+
+As mentioned, if we can come up with an appropriate estimator for the contrast function $C(X) = E(Y \mid A=1, X) - E(Y \mid A=0, X)$, estimating the optimal regime can be solved as weighted classification problem. Here, we demonstrate this by using both inverse probability weighted estimator and augmented inverse probability weighted estimator. We will introduce the method using augmented inverse probability weighted estimator first. 
+
+
+To do so, we build the models needed for both methods first. To define the propensity score model. As before, we use the "buildModelObj" function to create this modeling object.
+
+**Build propensity score model** 
+
+To build the model for propensity score, we follow the next steps.
+```{r}
+# modeling.object for propensity of treatment.
+propen <- buildModelObj(model = ~  gender + race + parentBMI + baselineBMI + month4BMI, solver.method = 'glm', solver.args = list( 'family' = 'binomial' ),  predict.method = 'predict.glm', predict.args = list( 'type' = 'response'))
+```
+The covariates included in moPropen modeling object are gender, race, parentBMI and baselineBMI. solver.method is used to specify the method for fitting models, and Generalized Linear Model ('glm') is used here. The "solver.args"" is a list of additional arguments needed for the specific "solver.method". By defining 'family' as 'binomial' in the list, the 'logit' link is used for 'glm' fitting . The "predict.method" is to define the R function for predictions, and 'predict.glm' is used here. If not specified, R generic prediction function 'predict' is used. the type of prediction required. The "predict.args" is a list of additional arguments for "predict.method". In the list, by setting 'type' to 'response', prediction is made on the scale of the response variable. For more details, use commands "help(buildModelObject)" and "help(glm)".
+
+**Build the conditional expectation model**
+
+We use the modeling with the form of
+$$Q(\boldsymbol{x}, a)= m(\boldsymbol{x}_0;\boldsymbol{\beta}) +  a\cdot c(\boldsymbol{x}_1;\boldsymbol{\gamma}),$$
+where the main effect and the contrast (or treatment effect) are modeled separately.
+
+We use the buildModelObj function to create a modeling object for the main effect component, named moMain.   
+```{r}
+#----------------------------------------------------#
+# Create modeling object for main effect component
+#----------------------------------------------------#
+expec.main <- buildModelObj(model = ~ gender + race + parentBMI + baselineBMI, solver.method='lm')
+```
+The covariates included in moMain modeling object are gender, race, parentBMI and baselineBMI. solver.method is used to specify the method for fitting models, and 'lm' is used here.
+
+Then, we crest a modeling object for the contrast component, called moCont, using buildModelObj function as well.  
+```{r}
+#----------------------------------------------------#
+# Create modeling object for contrast component
+#----------------------------------------------------#
+expec.cont <- buildModelObj(model = ~ gender + parentBMI, solver.method='lm')
+```
+The covariates included in moCont modeling are gender and  parentBMI. Argument solver.method is set to be the same method 'lm' .
+
+
+**Define the classification model**
+
+Then we need to define the model for classification. This is equivalent to define the regime function $g(x)$. By doing so, we specify the class of regime under consideration. Here, we consider a linear decision rule combining all the covariates recorded.
+
+```{r}
+#----------------------------------#
+# Define the classification model
+#----------------------------------#
+class <- buildModelObj(model= ~gender + baselineBMI + month4BMI, solver.method =  'rpart' , solver.args = list(method = 'class'), predict.args = list(type= 'class'))
+```
+
+We also need to tell the algorithm which is a treatment variable.
+```{r}
+#------------------------------------------------#
+# Specify the column index of df corresponding 
+# to the treatment variable
+#------------------------------------------------#
+tx.vars <- "A1"
+```
+
+Now, we are ready to call the optimalClass method to find the optimal regime in the class specified.
+```{r}
+estAIPWE <- optimalClass(moPropen = propen,
+                         moMain = expec.main,
+                         moCont = expec.cont,
+                         moClass = class,
+                         data = bmiDataOne,
+                         response = bmiDataOne$y,
+                         txName = tx.vars,
+                         iter=0)
+```
+```{r}
+estimator(estAIPWE)
+classif(estAIPWE)
+outcome(estAIPWE)
+propen(estAIPWE)
+head(optTx(estAIPWE))
+```
+
+
+
+
+
+<!---
+
+estIPWE <- optimalClass(moPropen = propen,
+                        moMain = NULL,
+                        moCont = NULL,
+                        moClass = class,
+                        data = bmiDataOne,
+                        response = y,
+                        txName = tx.vars,
+                        iter=0)
+estimator(estIPWE)
+classif(estIPWE)
+propen(estIPWE)
+head(optTx(estIPWE))
+--->
+

@@ -39,15 +39,15 @@ sidebar <- dashboardSidebar(
              menuItem(text = "Outcome Regression", 
                       menuSubItem(text = "Outcome Regression", tabName = "or"),
                       menuSubItem(text = "Case Study", tabName = "orc"),
-                      menuSubItem(text = "Hands on", tabName = "orh"))
-           #  menuItem(text = "Point Exposure Studies",
-          #            menuSubItem(text = "Randomized Studies", tabName = "rs"),
-          #            menuSubItem(text = "Observational studies", tabName = "os"),
-          #            menuSubItem(text = "Notation", tabName = "not")),
-          #   menuItem(text = "Three Necessary Assumptions", 
-           #           menuSubItem(text = "Necessary Assumptions", tabName = "na1"),
-            #          menuSubItem(text = "SUTVA", tabName = "sutva"),
-             #         menuSubItem(text = "NUC", tabName = "nuc"),
+                      menuSubItem(text = "Hands on", tabName = "orh")),
+              menuItem(text = "Augmented Inverse Probability Weighted Estimator",
+                       menuSubItem(text = "AIPWE", tabName = "aipwe"),
+                       menuSubItem(text = "Case study", tabName = "ac"),
+                       menuSubItem(text = "Hands on", tabName = "ah")),
+              menuItem(text = "Classification Method", 
+                       menuSubItem(text = "Classification Method", tabName = "class"),
+                       menuSubItem(text = "Case Study", tabName = "cc"),
+                       menuSubItem(text = "Hands On", tabName = "ch"))
               #        menuSubItem(text = "Positivity", tabName = "pos"),
                #       menuSubItem(text = "Necessary Assumptions (Cont'd)", tabName = "na2")
     )
@@ -153,19 +153,18 @@ body <- dashboardBody(
                      plotOutput("plot1"),
                      plotOutput("plot2"),
                      plotOutput("plot3"),
-                     plotOutput("plot4")))
-          
-          ))))
+                     plotOutput("plot4"))))),
+    tabItem(tabName = "aipwe",
+            withMathJax(includeMarkdown("./www/aipwe.Rmd"))),
+    tabItem(tabName = "ac",
+            uiOutput("ac")),
+    
+    tabItem(tabName = "class",
+            withMathJax(includeMarkdown("./www/class.Rmd"))),
+    tabItem(tabName = "cc",
+            uiOutput("cc"))
+    ))
 
-     #     uiOutput("orc")))
-  #  tabItem(tabName = "dat1explore",
-
-   # ))
-            #"Methods",
-            #tabPanel("Q-learning in point exposure studies",
-            #withMathJax(includeMarkdown("./www/10_qlearning.Rmd"))#,
-#   ),
-  
 
 
   

@@ -1,6 +1,7 @@
 library(markdown)
 library(shiny)
 library(shinydashboard)
+library(DynTxRegime)
 
 header <- dashboardHeader(title = "Dynamic Treatment Regimes",titleWidth = 350, disable = FALSE)
 
@@ -11,7 +12,7 @@ sidebar <- dashboardSidebar(
     tags$script(src = "custom.js")
   ),
   sidebarMenu(
-    menuItem(text = "Content",
+    menuItem(text = "Causal Inference Background",
              menuItem(text = "Motivation", tabName = "mot"),
              menuItem(text = "Causal Effect", 
                       menuSubItem(text = "Individual Causal Effect", tabName = "ice"),
@@ -29,7 +30,24 @@ sidebar <- dashboardSidebar(
                 menuSubItem(text = "Necessary Assumptions (Cont'd)", tabName = "na2")
               ),
              menuItem(text = "Optimal Treatment Regimes", tabName = "otr")
-             )
+             ),
+    menuItem(text = "Dataset", tabName = "dataone"),
+    menuItem(text = "Single Stage Methods",
+             menuItem(text = "Outcome Regression", 
+                      menuSubItem(text = "Outcome Regression", tabName = "or"),
+                      menuSubItem(text = "Case Study", tabName = "orc"),
+                      menuSubItem(text = "Summary", tabName = "sce"))
+           #  menuItem(text = "Point Exposure Studies",
+          #            menuSubItem(text = "Randomized Studies", tabName = "rs"),
+          #            menuSubItem(text = "Observational studies", tabName = "os"),
+          #            menuSubItem(text = "Notation", tabName = "not")),
+          #   menuItem(text = "Three Necessary Assumptions", 
+           #           menuSubItem(text = "Necessary Assumptions", tabName = "na1"),
+            #          menuSubItem(text = "SUTVA", tabName = "sutva"),
+             #         menuSubItem(text = "NUC", tabName = "nuc"),
+              #        menuSubItem(text = "Positivity", tabName = "pos"),
+               #       menuSubItem(text = "Necessary Assumptions (Cont'd)", tabName = "na2")
+    )
   )
 )
 
@@ -60,7 +78,13 @@ body <- dashboardBody(
     tabItem(tabName = "na2",
             withMathJax(includeMarkdown("./www/assumption2.Rmd"))),
     tabItem(tabName = "otr",
-            withMathJax(includeMarkdown("./www/optimal.Rmd")))
+            withMathJax(includeMarkdown("./www/optimal.Rmd"))),
+    tabItem(tabName = "or",
+            withMathJax(includeMarkdown("./www/outcome_regress.Rmd"))),
+    tabItem(tabName = "orc",
+            withMathJax(includeMarkdown("./www/outcome_regress_case.Rmd"))),
+    tabItem(tabName = "dataone",
+            withMathJax(includeMarkdown("./www/one_stage_dat.Rmd")))
     
     
             #"Methods",

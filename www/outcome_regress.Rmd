@@ -1,0 +1,34 @@
+## Outcome Regression
+The first method introduced is the outcome regression method, also called one-stage Q-learning method.
+
+#### The Q function 
+We first define the **Q function** by
+$$Q(\boldsymbol{x},a) =  E\left(Y \mid \boldsymbol{X}=\boldsymbol{x}, A=a\right).$$ It measures, on the average, the quality of assigning the treatment level $A=a$ to a patient with the specific baseline information $\boldsymbol{X}=\boldsymbol{x}$ in terms of the clinical outcome $Y$.
+
+As mentioned earlier, under the three key assumptions, we can show that $E\{ Y^{*}(a) \mid \boldsymbol{X}=\boldsymbol{x}\} = E\{ Y \mid \boldsymbol{X}=\boldsymbol{x}, A=a\}$. Therefore, together, we have $Q\left(\boldsymbol{x}, a\right) = E\left(Y \mid \boldsymbol{X} = \boldsymbol{x}, A=a\right) = E\left\{ Y^{*}\left(a\right) \mid \boldsymbol{X}=\boldsymbol{x} \right\}.$
+ 
+Usually, the Q-functions are unknown, and estimation is needed. In the package, we model the main effect and contrast separately for modeling flexibility. For a single decision point setting, we have the Q-function modeled in the form of 
+$$Q(\boldsymbol{x}, a)= m(\boldsymbol{x}_0;\boldsymbol{\beta}) +  a\cdot c(\boldsymbol{x}_1;\boldsymbol{\gamma}).$$
+
+Hence, we have the flexibility to choose different models for the main effect and contrast, including linear model, generalized linear model and non-linear model. The parameter $\boldsymbol{\beta}$ and $\boldsymbol{\gamma}$ can be estimated using standard statistical methods for regression models, such as least-squares, weight least-squares and generalized estimating equations. Denote the parameter estimators by  $\widehat{\boldsymbol{\beta}}$ and $\widehat{\boldsymbol{\gamma}}$, and the fitted Q-function by $\widehat{Q}\left( \boldsymbol{x}, a\right)$. Having these estimators in hand, we are now ready to find an optimal treatment regime under this setting.
+
+#### Outcome Regression Method
+We can see that different treatment levels can lead to different values of the Q-function. We recall the definition of an optimal regime. An optimal treatment regime is a treatment rule that chooses the treatment level with the best average potential outcome for any possible value of baseline covariate. Mathematically, for all $\boldsymbol{x} \in \mathscr{X}$, $d^{opt}$ satisfies
+$$E\left\{ Y^{*} \left( d^{opt} \right) \mid \boldsymbol{X}=\boldsymbol{x} \right\} \ge E\left\{ Y^{*} \left( d \right)\mid \boldsymbol{X}=\boldsymbol{x} \right\} \text{, for all }d \in \mathscr{D},$$
+where $\mathscr{X}$ is the sample space of the baseline covariates $\boldsymbol{X}$, and $\mathscr{D}$ is the class of all possible regimes under the consideration. Because this inequality holds for any $\boldsymbol{x} \in \mathscr{X}$, we have
+$$E\left\{ Y^{*} \left( d^{opt} \right) \right\} \ge E\left\{ Y^{*} \left( d \right) \right\} \text{, for all }d \in \mathscr{D}.$$ As $E\left\{ Y^{*} \left( d \right)\mid \boldsymbol{X}=\boldsymbol{x} \right\}=Q(\boldsymbol{x},a)$ , an optimal treatment regime is a rule that always chooses the treatment with larger value of the Q function for any $\boldsymbol{X} =\boldsymbol{x}$, i.e.,
+$$d^{\text{opt}}\left( \boldsymbol{x} \right) =\underset{a \in  \mathscr{A} }{\text{argmax}}\, Q\left(\boldsymbol{x}, a \right),$$ where $\mathscr{A}$ is the set of all the possible treatment levels. In the simple case, we consider two levels of treatment, i.e., $\mathscr{A} =  \left\{a_0, a_1 \right\}$. In the package, we use either $\{-1, 1 \}$ or $\{0, 1\}$ to denote the binary treatment levels.
+
+It is possible that $Q\left(\boldsymbol{x}, a_0 \right) = Q\left(\boldsymbol{x}, a_1 \right)$, and, therefore, $d^{\text{opt}}\left( \boldsymbol{x} \right)$ is not well defined in this case. We have to re-define $d^{\text{opt}}\left(\boldsymbol{x}\right)$ as
+$$d^{\text{opt}}\left(\boldsymbol{x}\right) = \mathbf{I}\left\{ Q\left( \boldsymbol{x}, a_1 \right) \ge Q\left( \boldsymbol{x}, a_0\right) \right\},$$
+where we arbitrarily assign treatment level $a_1$, if both treatments are equally effective. Also, we define the value function $V\left(\boldsymbol{x}\right)$ as the maximum value of the Q function, i.e.,
+$$V\left( \boldsymbol{x}\right) = \underset{a \in \mathscr{A}}{\text{max}}\,Q\left(\boldsymbol{x}, a \right).$$
+
+To estimate an optimal treatment regime, we can plug in the least-squares estimators mentioned above to estimate the optimal regime,  
+$$\widehat{d}^{\text{opt}}\left( \boldsymbol{x}\right) = \mathbf{I} \left\{ \widehat{Q}\left(\boldsymbol{x}, a_1\right) \ge \widehat{Q}\left(\boldsymbol{x}, a_0\right) \right\},$$
+and the value function estimator is 
+$$\widehat{V}\left(\boldsymbol{x}\right) = \underset{a \in \mathscr{A}}{\text{max}}\,\widehat{Q}\left( \boldsymbol{x}, a\right).$$
+If we keep using the model assumed above, then the estimated Q function is $\widehat{Q}(\boldsymbol{x}, a)= m(\boldsymbol{x}_0;\widehat{\boldsymbol{\beta}}) +  a\cdot c(\boldsymbol{x}_1;\widehat{\boldsymbol{\gamma}})$. Moreover, the estimated average potential outcome under an optimal regime is
+$$\widehat{E}\left\{ Y^{*}\left( d^{\text{opt}}\right) \right\} = \widehat{E}\left\{ \widehat{V}\left( \boldsymbol{X}\right)\right\} = n^{-1}\sum_{i=1}^{n}\widehat{V}\left(\boldsymbol{X}_i\right) = n^{-1}\sum_{i=1}^{n} \underset{a \in \mathscr{A}}{\text{max}} \widehat{Q}\left( \boldsymbol{X}_i, a\right).$$
+
+Next, we will present an adolescence meal-replacement weight-control study using outcome regression method to find an optimal treatment regime.

@@ -1,4 +1,4 @@
----
+## Three Necessary Assumptions (Cont'd)
 Equipped with the three key assumptions above, we can now use observed data $(\boldsymbol{X}, A, Y)$ to infer the distribution of $(\boldsymbol{X}, Y^*(0), Y^*(1))$.
 
 Under these assumptions, we can prove that, 

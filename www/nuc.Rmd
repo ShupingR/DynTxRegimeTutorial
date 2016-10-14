@@ -1,4 +1,4 @@
-## No Unmeasured Confounders Assumption (NUC):
+## No Unmeasured Confounders Assumption
 In marginally randomized studies, we assume that independence between treatment assignment and all the potential outcomes. That is
 
 $$\left\{ Y^{*}(1), Y^{*}(-1) \right\} \!\perp\!\!\!\perp A.$$
@@ -20,6 +20,10 @@ If we are willing to believe that the observed covariate $\boldsymbol{X}$ contai
 $$\left\{ Y^{*}(1), Y^{*}(-1) \right\} \!\perp\!\!\!\perp A \, | \,  \boldsymbol{X}.$$
 However, in reality, it is difficulty to verify this assumption, as we often do not know all the factors that influence the clinical conditions.
 
-Reference:
-Rubin 1978
-Robins 1997
+
+
+*1. Donald Rubin (1977) "Assignment to Treatment Group on the Basis of a Covariate", Journal of Educational Statistics, 2, pp. 1–26.*
+
+*2. Greenland S, Robins JM: Identifiability, exchangeability, and epidemiological confounding. Int J Epidemiol 1986, 15:413–419.*
+
+*3.Greenland S, Robins JM, Pearl J: Confounding and collapsibility in causal inference. Statistical Science 1999, 14:29–46.*

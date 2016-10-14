@@ -1,5 +1,5 @@
-##### Positivity Assumption: 
-When designing studies, we must assign some subjects to each the treatment levels. Otherwise, it would be impossible to calculate the average causal effect, if we only have data for one of the treatment group. More precisely, the probability of subjects being assigned to each treatment level must be positive. This is called the **positivity** assumption.
+## Positivity Assumption
+When designing studies, we must assign some subjects to each the treatment level. Otherwise, it would be impossible to calculate the average causal effect, if we only have data for one of the treatment group. More precisely, the probability of subjects being assigned to each treatment level must be positive. This is called the **positivity assumption**.
 
 In marginally randomized studies, this assumption is satisfied by the design itself. Both P(A=1) and P(A=0) are greater than zero. In conditionally randomized studies, the assumption is also satisfied for each level of stratification. That is 
 $$P(A=a \mid X=x) > 0 \text{, for all }x \text{ with } P(X=x) > 0.$$

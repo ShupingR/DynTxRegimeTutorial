@@ -57,31 +57,31 @@ sidebar <- dashboardSidebar(
 body <- dashboardBody(
   tabItems(
     tabItem(tabName = "mot",
-            withMathJax(includeMarkdown("./www/begin.Rmd"))),
+            withMathJax(includeMarkdown("./www/background/begin.Rmd"))),
     tabItem(tabName = "ice",
-            withMathJax(includeMarkdown("./www/effect_1.Rmd"))),
+            withMathJax(includeMarkdown("./www/background/effect_1.Rmd"))),
     tabItem(tabName = "ace",
-            withMathJax(includeMarkdown("./www/effect_2.Rmd"))),
+            withMathJax(includeMarkdown("./www/background/effect_2.Rmd"))),
     tabItem(tabName = "sce",
-            withMathJax(includeMarkdown("./www/effect_3.Rmd"))),
+            withMathJax(includeMarkdown("./www/background/effect_3.Rmd"))),
     tabItem(tabName = "rs",
-            withMathJax(includeMarkdown("./www/point_1.Rmd"))),
+            withMathJax(includeMarkdown("./www/background/point_1.Rmd"))),
     tabItem(tabName = "os",
-            withMathJax(includeMarkdown("./www/point_2.Rmd"))),
+            withMathJax(includeMarkdown("./www/background/point_2.Rmd"))),
     tabItem(tabName = "not",
-            withMathJax(includeMarkdown("./www/notation.Rmd"))),
+            withMathJax(includeMarkdown("./www/background/notation.Rmd"))),
     tabItem(tabName = "na1",
-            withMathJax(includeMarkdown("./www/assumption1.Rmd"))),
+            withMathJax(includeMarkdown("./www/background/assumption1.Rmd"))),
     tabItem(tabName = "sutva",
-            withMathJax(includeMarkdown("./www/sutva.Rmd"))),
+            withMathJax(includeMarkdown("./www/background/sutva.Rmd"))),
     tabItem(tabName = 'nuc',
-             withMathJax(includeMarkdown("./www/nuc.Rmd"))),
+             withMathJax(includeMarkdown("./www/background/nuc.Rmd"))),
     tabItem(tabName = 'pos',
-             withMathJax(includeMarkdown("./www/positivity.Rmd"))),
+             withMathJax(includeMarkdown("./www/background/positivity.Rmd"))),
     tabItem(tabName = "na2",
-            withMathJax(includeMarkdown("./www/assumption2.Rmd"))),
+            withMathJax(includeMarkdown("./www/background/assumption2.Rmd"))),
     tabItem(tabName = "otr",
-            withMathJax(includeMarkdown("./www/optimal.Rmd"))),
+            withMathJax(includeMarkdown("./www/background/optimal.Rmd"))),
     tabItem(tabName = "dataone",
             uiOutput("dataone")),
     tabItem(tabName = "or",
@@ -153,8 +153,9 @@ body <- dashboardBody(
                      plotOutput("plot1"),
                      plotOutput("plot2"),
                      plotOutput("plot3"),
-                     plotOutput("plot4"))
-)))))
+                     plotOutput("plot4")))
+          
+          ))))
 
      #     uiOutput("orc")))
   #  tabItem(tabName = "dat1explore",

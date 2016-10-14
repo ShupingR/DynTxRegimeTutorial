@@ -14,7 +14,7 @@ shinyServer(
 	  # Read uploaded csv file
 	  #-----------------------
 	  data <- callModule(csvFile, "datafile",
-	                         stringsAsFactors = FALSE)
+	          stringsAsFactors = FALSE)
 	  #-----------------
 	  # Datatable Output
 	  #-----------------

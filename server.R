@@ -3,20 +3,17 @@
 options(shiny.maxRequestSize=5*1024^2)
 shinyServer(
 	function(input, output, session) {
-	  
+
 	  output$dataone <- renderUI({
 	    includeHTML("./www/one_stage_dat.html")})
 	  
 	  output$orc <- renderUI({
 	    includeHTML("./www/outcome_regress_case.html")})
-	  
-	  output$ac <- renderUI({
+	 	output$ac <- renderUI({
 	    includeHTML("./www/aipwe_case.html")})
-	  
 	  output$cc <- renderUI({
 	    includeHTML("./www/class_case.html")})
-	  
-	  
+
 	  #-----------------------
 	  # Read uploaded csv file
 	  #-----------------------
@@ -39,6 +36,7 @@ shinyServer(
 	    pairs(df)
 	  })
 	  
+	  ##--------------------------- outcome regression --------------------------------------------------#
 	  #---------------------
 	  # Specify treatment
 	  #---------------------
@@ -143,6 +141,6 @@ shinyServer(
 	    output$plot2 <- renderPlot({plot(fitQ1, which=2)})
 	    output$plot3 <- renderPlot({plot(fitQ1, which=3)})
 	    output$plot4 <- renderPlot({plot(fitQ1, which=5)})
-	  })  
-	}
-)
+	  }) 
+	  
+	    })  

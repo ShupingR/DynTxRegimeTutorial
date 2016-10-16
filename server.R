@@ -48,37 +48,37 @@ shinyServer(
 	  #---------------------
 	  # Specify treatment
 	  #---------------------
-	  output$varTrt <- renderUI({
+	  output$varTrtR <- renderUI({
 	    if (is.null(data())) return(NULL)
 	    df <-data()
 	    
 	    items=names(df)
 	    names(items)=items
-	    selectInput("varTrt", "Treatment:",items)
+	    selectInput("varTrtR", "Treatment:",items)
 	  })
 	  
 	  #-----------------
 	  # Specify response
 	  #-----------------
-	  output$varResponse <- renderUI({
+	  output$varResponseR <- renderUI({
 	    if (is.null(data())) return(NULL)
 	    df <-data()
 	    
 	    items=names(df)
 	    names(items)=items
-	    selectInput("varResponse", "Response:",items)
+	    selectInput("varResponseR", "Response:",items)
 	  })
 	  
 	  #-------------
 	  # Build moMain
 	  #-------------
-	  output$varMain <- renderUI({
+	  output$varMainR <- renderUI({
 	    if (is.null(data())) return(NULL)
 	    df <-data()
 	    
 	    varName <- names(df)
-	    varName <- varName[!(varName %in% c(input$varTrt, input$varResponse)) ]
-	    checkboxGroupInput("varMain", 
+	    varName <- varName[!(varName %in% c(input$varTrtR, input$varResponseR)) ]
+	    checkboxGroupInput("varMainR", 
 	                       "Choose variables to be included in the main effect model", 
 	                       varName)
 	  })
@@ -86,13 +86,13 @@ shinyServer(
 	  #-------------
 	  # Build moCont
 	  #-------------
-	  output$varCont <- renderUI({
+	  output$varContR <- renderUI({
 	    if (is.null(data())) return(NULL)
 	    df <-data()
 	    
 	    varName <- names(df)
-	    varName <- varName[!(varName %in% c(input$varTrt, input$varResponse)) ]
-	    checkboxGroupInput("varCont", 
+	    varName <- varName[!(varName %in% c(input$varTrtR, input$varResponseR)) ]
+	    checkboxGroupInput("varContR", 
 	                       "Choose variables to be included in the contrast model", 
 	                       varName)
 	  })
@@ -105,44 +105,44 @@ shinyServer(
 	    df <-data()
 	    
 	    # check if all the inputs are ready  
-	    if(is.null(input$varResponse)) return(NULL)
-	    if(is.null(input$varTrt)) return(NULL)
+	    if(is.null(input$varResponseR)) return(NULL)
+	    if(is.null(input$varTrtR)) return(NULL)
 	    
-	    if (is.null(input$varMain)) return(NULL)
-	    if (is.null(input$varCont)) return(NULL)
+	    if (is.null(input$varMainR)) return(NULL)
+	    if (is.null(input$varContR)) return(NULL)
 	    
 	    # fit model when user request 
-	    if (input$getmodel == 0) return(NULL)
+	    if (input$getmodelR == 0) return(NULL)
 	    
 	    # build moMain and moCont
-	    varMainVector <- as.vector(input$varMain)
-	    varContVector <- as.vector(input$varCont)
-	    myMain <- paste("~", paste(varMainVector, collapse=" + "))
-	    myCont <- paste("~", paste(varContVector, collapse=" + "))
-	    output$myMain <- renderText({paste("moMain <- buildModelObj(model =",  
-	                                       myMain, ",  solver.method='lm')")})
-	    output$myCont <- renderText({paste("moCont <- buildModelObj(model =",  
-	                                       myCont, ",  solver.method='lm')")})
-	    moMain <- buildModelObj(model = as.formula(myMain), solver.method='lm')
-	    moCont <- buildModelObj(model = as.formula(myCont), solver.method='lm')
+	    varMainVectorR <- as.vector(input$varMainR)
+	    varContVectorR <- as.vector(input$varContR)
+	    myMainR <- paste("~", paste(varMainVectorR, collapse=" + "))
+	    myContR <- paste("~", paste(varContVectorR, collapse=" + "))
+	    output$myMainR <- renderText({paste("moMain <- buildModelObj(model =",  
+	                                        myMainR, ",  solver.method='lm')")})
+	    output$myContR <- renderText({paste("moCont <- buildModelObj(model =",  
+	                                        myContR, ",  solver.method='lm')")})
+	    moMainR <- buildModelObj(model = as.formula(myMainR), solver.method='lm')
+	    moContR <- buildModelObj(model = as.formula(myContR), solver.method='lm')
 	    
 	    # extract the response
-	    y <- df[names(df) == input$varResponse]
+	    # yR <- df[names(df) == input$varResponseR]
 	    
 	    # fit QLearn
 	    output$myFitQ1 <- renderText({paste("fitQ1 <- qLearn(moMain = moMain, 
-	                                        moCont = moCont, response =",  input$varResponse, ",",
-	                                        "data = df, txName = ", input$varTrt, ")")})
-	    fitQ1 <- qLearn(moMain = moMain, moCont = moCont,  
-	                    response = as.matrix(df[names(df) == input$varResponse]), 
-	                    data = df, txName = input$varTrt)
+	                                        moCont = moCont, response =",  input$varResponseR, ",",
+	                                        "data = df, txName = ", input$varTrtR, ")")})
+	    fitQ1 <- qLearn(moMain = moMainR, moCont = moContR,  
+	                    response = as.matrix(df[names(df) == input$varResponseR]), 
+	                    data = df, txName = input$varTrtR)
 	    # coeff into data frame
 	    coeffTbl <- as.data.frame(coef(fitQ1)$Combined)
 	    names(coeffTbl) <- c("Coefficients")
 	    
 	    # output coef
 	    output$coeffTbl = renderTable({
-	      if (input$getmodel == 0) return(NULL)
+	      if (input$getmodelR == 0) return(NULL)
 	      coeffTbl})
 	    output$res <- renderText({head(residuals(fitQ1))})
 	    output$plot1 <- renderPlot({plot(fitQ1, which=1)})
@@ -155,50 +155,50 @@ shinyServer(
 	    #------------------
 	    # Specify treatment
 	    #------------------
-	    output$varTrt <- renderUI({
+	    output$varTrtC <- renderUI({
 	      if (is.null(data())) return(NULL)
 	      df <-data()
 	      
 	      items=names(df)
 	      names(items)=items
-	      selectInput("varTrt", "Treatment:",items)
+	      selectInput("varTrtC", "Treatment:",items)
 	    })
 	    
 	    #-----------------
 	    # Specify response
 	    #-----------------
-	    output$varResponse <- renderUI({
+	    output$varResponseC <- renderUI({
 	      if (is.null(data())) return(NULL)
 	      df <-data()
 	      
 	      items=names(df)
 	      names(items)=items
-	      selectInput("varResponse", "Response:",items)
+	      selectInput("varResponseC", "Response:",items)
 	    })
 	    
 	    #-------------
 	    # Build moProp
 	    #-------------
-	    output$varProp <- renderUI({
+	    output$varPropC <- renderUI({
 	      if (is.null(data())) return(NULL)
 	      df <-data()
 	      
 	      varName <- names(df)
-	      varName <- varName[!(varName %in% c(input$varTrt, input$varResponse)) ]
-	      checkboxGroupInput("varProp", 
+	      varName <- varName[!(varName %in% c(input$varTrtC, input$varResponseC)) ]
+	      checkboxGroupInput("varPropC", 
 	                         "Choose variables to be included in the propensity model", 
 	                         varName)
 	    })
 	    #-------------
 	    # Build moMain
 	    #-------------
-	    output$varMain <- renderUI({
+	    output$varMainC <- renderUI({
 	      if (is.null(data())) return(NULL)
 	      df <-data()
 	      
 	      varName <- names(df)
-	      varName <- varName[!(varName %in% c(input$varTrt, input$varResponse)) ]
-	      checkboxGroupInput("varMain", 
+	      varName <- varName[!(varName %in% c(input$varTrtC, input$varResponseC)) ]
+	      checkboxGroupInput("varMainC", 
 	                         "Choose variables to be included in the main effect model", 
 	                         varName)
 	    })
@@ -206,13 +206,13 @@ shinyServer(
 	    #-------------
 	    # Build moCont
 	    #-------------
-	    output$varCont <- renderUI({
+	    output$varContC <- renderUI({
 	      if (is.null(data())) return(NULL)
 	      df <-data()
 	      
 	      varName <- names(df)
-	      varName <- varName[!(varName %in% c(input$varTrt, input$varResponse)) ]
-	      checkboxGroupInput("varCont", 
+	      varName <- varName[!(varName %in% c(input$varTrtC, input$varResponseC)) ]
+	      checkboxGroupInput("varContC", 
 	                         "Choose variables to be included in the contrast model", 
 	                         varName)
 	    })
@@ -224,7 +224,7 @@ shinyServer(
 	      if (is.null(data())) return(NULL)
 	      df <-data()
 	      varName <- names(df)
-	      varName <- varName[!(varName %in% c(input$varTrt, input$varResponse)) ]
+	      varName <- varName[!(varName %in% c(input$varTrtC, input$varResponseC)) ]
 	      checkboxGroupInput("varClass", 
 	                         "Choose variables to specify the class of regimes. 
 	                         For simplicity, we are restrict to linear decision rule with the form
@@ -233,52 +233,53 @@ shinyServer(
 	    })
 	    
 	    observe({
+
 	      if (is.null(data())) return(NULL)
 	      df <-data()
 	      
 	      # check if all the inputs are ready  
-	      if(is.null(input$varResponse)) return(NULL)
-	      if(is.null(input$varTrt)) return(NULL)
+	      if(is.null(input$varResponseC)) return(NULL)
+	      if(is.null(input$varTrtC)) return(NULL)
 	      
-	      if (is.null(input$varMain)) return(NULL)
-	      if (is.null(input$varCont)) return(NULL)
-	      
+	      if (is.null(input$varMainC)) return(NULL)
+	      if (is.null(input$varContC)) return(NULL)
+	     # browser()	      
 	      # fit model when user request 
-	      if (input$getmodel == 0) return(NULL)
-	      
+	      if (input$getmodelC == 0) return(NULL)
+
 	      # build moProp
-	      varPropVector <- as.vector(input$varProp)
-	      myProp <- paste("~", paste(varPropVector, collapse=" + "))
-	      output$myProp <- renderText({paste("moMain <- buildModelObj(model =",  
-	                                         myProp, ",  solver.method = 'glm', 
+	      varPropVectorC <- as.vector(input$varPropC)
+	      myPropC <- paste("~", paste(varPropVectorC, collapse=" + "))
+	      output$myPropC <- renderText({paste("moMain <- buildModelObj(model =",  
+	                                         myPropC, ",  solver.method = 'glm', 
 	                                         solver.args = list( 'family' = 'binomial' ),  
 	                                         predict.method = 'predict.glm', 
 	                                         predict.args = list( 'type' = 'response')")})
-	      moProp <- buildModelObj(model = as.formula(myProp), solver.method = 'glm', 
+	      moPropC <- buildModelObj(model = as.formula(myPropC), solver.method = 'glm', 
 	                              solver.args = list( 'family' = 'binomial' ),  
 	                              predict.method = 'predict.glm', 
 	                              predict.args = list( 'type' = 'response'))
 	      
 	      # build moMain
-	      varMainVector <- as.vector(input$varMain)
-	      myMain <- paste("~", paste(varMainVector, collapse=" + "))
-	      output$myMain <- renderText({paste("moMain <- buildModelObj(model =",  
-	                                         myMain, ",  solver.method='lm')")})
-	      moMain <- buildModelObj(model = as.formula(myMain), solver.method='lm')
+	      varMainVectorC <- as.vector(input$varMainC)
+	      myMainC <- paste("~", paste(varMainVectorC, collapse=" + "))
+	      output$myMainC <- renderText({paste("moMain <- buildModelObj(model =",  
+	                                         myMainC, ",  solver.method='lm')")})
+	      moMainC <- buildModelObj(model = as.formula(myMainC), solver.method='lm')
 	      
 	      # build moCont
-	      varContVector <- as.vector(input$varCont)
-	      myCont <- paste("~", paste(varContVector, collapse=" + "))
-	      output$myCont <- renderText({paste("moCont <- buildModelObj(model =",  
-	                                         myCont, ",  solver.method='lm')")})
-	      moCont <- buildModelObj(model = as.formula(myCont), solver.method='lm')
+	      varContVectorC <- as.vector(input$varContC)
+	      myContC <- paste("~", paste(varContVectorC, collapse=" + "))
+	      output$myContC <- renderText({paste("moCont <- buildModelObj(model =",  
+	                                         myContC, ",  solver.method='lm')")})
+	      moContC <- buildModelObj(model = as.formula(myContC), solver.method='lm')
 	      
 	      # extract the response
-	      y <- as.numeric(unlist(df[names(df) == input$varResponse]))
+	      yC <- as.numeric(unlist(df[names(df) == input$varResponseC]))
 	      
 	      # extract the treatment variable
-	      tx.vars <- input$varTrt
-	      browser()
+	      tx.varsC <- input$varTrtC
+	
 	      #---------------------------------   
 	      # Define the classification model 
 	      #---------------------------------
@@ -294,13 +295,13 @@ shinyServer(
 	      
 	      
 	      # classification solve
-	      estAIPWE <- optimalClass(moPropen = moProp,
-	                               moMain = moMain,
-	                               moCont = moCont,
+	      estAIPWE <- optimalClass(moPropen = moPropC,
+	                               moMain = moMainC,
+	                               moCont = moContC,
 	                               moClass = class,
 	                               data = df,
-	                               response = y,
-	                               txName = tx.vars,
+	                               response = yC,
+	                               txName = tx.varsC,
 	                               iter=0)
 	      
 	      # coeff into data frame
@@ -316,5 +317,5 @@ shinyServer(
 	      #output$plot3 <- renderPlot({plot(fitQ1, which=3)})
 	      #output$plot4 <- renderPlot({plot(fitQ1, which=5)})
 	      })  
-	  }) })
- 
+	  })
+	})

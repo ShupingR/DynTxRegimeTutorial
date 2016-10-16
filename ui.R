@@ -164,12 +164,12 @@ body <- dashboardBody(
           fluidPage(
             sidebarLayout(
               sidebarPanel(
-                uiOutput("varTrt"),
-                uiOutput("varResponse"),
-                uiOutput("varMain"),
-                uiOutput("solverMain"),
-                uiOutput("varCont"),
-                uiOutput("solverCont")
+                uiOutput("varTrtR"),
+                uiOutput("varResponseR"),
+                uiOutput("varMainR"),
+                uiOutput("solverMainR"),
+                uiOutput("varContR"),
+                uiOutput("solverContR")
                 ),
               mainPanel(
                 fluidPage(
@@ -182,9 +182,9 @@ body <- dashboardBody(
                     This step can be achieved using the function buildModelObj(), followed by
                     call the qLearn() function to fit the models together."),
                   h6("Fit the model specified"),
-                    actionButton("getmodel", "GO"),
-                    code(textOutput("myMain")),
-                    code(textOutput("myCont")),
+                    actionButton("getmodelR", "GO"),
+                    code(textOutput("myMainR")),
+                    code(textOutput("myContR")),
                     code(textOutput("myFitQ1")),
                   h6("We may extract the coefficient estimated value by  function coeff()"),
                   code("coef(fitQ1)"),
@@ -203,7 +203,7 @@ body <- dashboardBody(
               )
             )
            )
-         ),
+          ),
         tabPanel("Classification Method", 
                  fluidPage(
                    h4("Specify treatment variable and build your modeling objects."),
@@ -215,94 +215,32 @@ body <- dashboardBody(
                      and response varible below. You may also choose the covariates to include
                      in and solver for each model. Here, we choose the solver to be glm for 
                      modeling propensity score and gl for conditional expectations."),
-                    sidebarLayout(
-                      sidebarPanel(
-                       uiOutput("varTrt"),
-                       uiOutput("varResponse"),
-                       uiOutput("varProp"),
-                       uiOutput("varMain"),
-                       uiOutput("varCont"),
+                   
+                   sidebarLayout(
+                     sidebarPanel(
+                       uiOutput("varTrtC"),
+                       uiOutput("varResponseC"),
+                       uiOutput("varPropC"),
+                       uiOutput("varMainC"),
+                       uiOutput("varContC"),
                        uiOutput("varClass")
-                     ),
+                       ),
                      mainPanel(
                        fluidPage(
                          h6("Estimate the optimal regime"),
-                         actionButton("getmodel", "GO"),
-                         uiOutput("optClass"),
-                         code(textOutput("myProp")),
-                         code(textOutput("myMain")),
-                         code(textOutput("myCont")),
-                         code(textOutput("myAIPWE")),
-                         h6("We may extract the coefficient estimated value by  function coeff()"),
-                         code("coef(fitQ1)"),
-                         tableOutput("coeffTbl"),
-                         code(textOutput("ft"))
-                         
-                  )
-                )
-              )
-            )
-         )
+                         actionButton("getmodelC", "GO"),
+                         uiOutput("optClass")
+                       )
+                    )
+             )
+        )
         )
       )
     )
-  )
+))
 
     
-#     tabPanel("Build and Fit Models",
-#              fluidPage(
-#                h4("Specify treatment variable and build your modeling objects."),
-#                p(
-#                  "Before running the optimalSeq function, we need to for the
-#                  treatment variable. This tells optimalSeq 'optimalSeq' which
-#                  columns of data correspond to treatments, and build the modeling
-#                  objects for propensity score (moPropen) and conditional expectations
-#                  (expec.main and expec.cont), You may specify your treatment variable
-#                  and response varible below. You may also choose the covariates to include
-#                  in and solver for each model. Here, we choose the solver to be glm for
-#                  modeling propensity score and gl for conditional expectations."
-#                ),
-#                #interaction not included yet
-#                sidebarLayout(
-#                  sidebarPanel(
-#                    uiOutput("varTrt"),
-#                    uiOutput("varResponse"),
-#                    uiOutput("varProp"),
-#                    # uiOutput("solverProp"),
-#                    uiOutput("varMain"),
-#                    #  uiOutput("solverMain"),
-#                    uiOutput("varCont"),
-#                    #  uiOutput("solverCont"),
-#                    uiOutput("varClass")
-#                    #uiOutput("solverCont")
-#                  ),
-#                  mainPanel(fluidPage(
-#                    h6("Estimate the optimal regime"),
-#                    actionButton("getmodel", "GO"),
-#                    uiOutput("optClass")
-#                    # code(textOutput("myProp")),
-#                    #  code(textOutput("myMain")),
-#                    #  code(textOutput("myCont")),
-#                    #code(textOutput("myAIPWE")),
-#                    #  h6("We may extract the coefficient estimated value by  function coeff()"),
-#                    #code("coef(fitQ1)"),
-#                    #tableOutput("coeffTbl")
-#                    # code(textOutput("ft"))
-#                    
-#                  ))))),
-#     tabPanel(
-#       "Diagnostic Plots",
-#       fluidPage(
-#         h6(
-#           "We may use the function plot() to obtain the diagnostic plots for fitted model"
-#         ),
-#         code("plot(fitQ1)"),
-#         plotOutput("plot1"),
-#         plotOutput("plot2"),
-#         plotOutput("plot3"),
-#         plotOutput("plot4")
-#       )
-#     )
+
 
 
 

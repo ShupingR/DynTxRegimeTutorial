@@ -1,3 +1,10 @@
+library(shiny)
+library(markdown)
+library(shinydashboard)
+library(DynTxRegime)
+library(DT)
+library(rgenoud)
+
 # server.R
 # Limit Upload Data Size to 5Mb
 options(shiny.maxRequestSize=5*1024^2)
@@ -13,6 +20,7 @@ shinyServer(
 	    includeHTML("./www/aipwe_case.html")})
 	  output$cc <- renderUI({
 	    includeHTML("./www/class_case.html")})
+
 
 	  #-----------------------
 	  # Read uploaded csv file
@@ -36,7 +44,7 @@ shinyServer(
 	    pairs(df)
 	  })
 	  
-	  ##--------------------------- outcome regression --------------------------------------------------#
+	  ##--------------------------- outcome regression ---------------------------------------#
 	  #---------------------
 	  # Specify treatment
 	  #---------------------
@@ -141,6 +149,172 @@ shinyServer(
 	    output$plot2 <- renderPlot({plot(fitQ1, which=2)})
 	    output$plot3 <- renderPlot({plot(fitQ1, which=3)})
 	    output$plot4 <- renderPlot({plot(fitQ1, which=5)})
-	  }) 
-	  
-	    })  
+	    
+
+	    ##--------------------------- classification --------------------------------------#
+	    #------------------
+	    # Specify treatment
+	    #------------------
+	    output$varTrt <- renderUI({
+	      if (is.null(data())) return(NULL)
+	      df <-data()
+	      
+	      items=names(df)
+	      names(items)=items
+	      selectInput("varTrt", "Treatment:",items)
+	    })
+	    
+	    #-----------------
+	    # Specify response
+	    #-----------------
+	    output$varResponse <- renderUI({
+	      if (is.null(data())) return(NULL)
+	      df <-data()
+	      
+	      items=names(df)
+	      names(items)=items
+	      selectInput("varResponse", "Response:",items)
+	    })
+	    
+	    #-------------
+	    # Build moProp
+	    #-------------
+	    output$varProp <- renderUI({
+	      if (is.null(data())) return(NULL)
+	      df <-data()
+	      
+	      varName <- names(df)
+	      varName <- varName[!(varName %in% c(input$varTrt, input$varResponse)) ]
+	      checkboxGroupInput("varProp", 
+	                         "Choose variables to be included in the propensity model", 
+	                         varName)
+	    })
+	    #-------------
+	    # Build moMain
+	    #-------------
+	    output$varMain <- renderUI({
+	      if (is.null(data())) return(NULL)
+	      df <-data()
+	      
+	      varName <- names(df)
+	      varName <- varName[!(varName %in% c(input$varTrt, input$varResponse)) ]
+	      checkboxGroupInput("varMain", 
+	                         "Choose variables to be included in the main effect model", 
+	                         varName)
+	    })
+	    
+	    #-------------
+	    # Build moCont
+	    #-------------
+	    output$varCont <- renderUI({
+	      if (is.null(data())) return(NULL)
+	      df <-data()
+	      
+	      varName <- names(df)
+	      varName <- varName[!(varName %in% c(input$varTrt, input$varResponse)) ]
+	      checkboxGroupInput("varCont", 
+	                         "Choose variables to be included in the contrast model", 
+	                         varName)
+	    })
+	    
+	    #----------------------------------------
+	    # Specify the class of the decision rules/classification model
+	    #----------------------------------------
+	    output$varClass <- renderUI({
+	      if (is.null(data())) return(NULL)
+	      df <-data()
+	      varName <- names(df)
+	      varName <- varName[!(varName %in% c(input$varTrt, input$varResponse)) ]
+	      checkboxGroupInput("varClass", 
+	                         "Choose variables to specify the class of regimes. 
+	                         For simplicity, we are restrict to linear decision rule with the form
+	                         a + b x1 + c x2", 
+	                         varName)
+	    })
+	    
+	    observe({
+	      if (is.null(data())) return(NULL)
+	      df <-data()
+	      
+	      # check if all the inputs are ready  
+	      if(is.null(input$varResponse)) return(NULL)
+	      if(is.null(input$varTrt)) return(NULL)
+	      
+	      if (is.null(input$varMain)) return(NULL)
+	      if (is.null(input$varCont)) return(NULL)
+	      
+	      # fit model when user request 
+	      if (input$getmodel == 0) return(NULL)
+	      
+	      # build moProp
+	      varPropVector <- as.vector(input$varProp)
+	      myProp <- paste("~", paste(varPropVector, collapse=" + "))
+	      output$myProp <- renderText({paste("moMain <- buildModelObj(model =",  
+	                                         myProp, ",  solver.method = 'glm', 
+	                                         solver.args = list( 'family' = 'binomial' ),  
+	                                         predict.method = 'predict.glm', 
+	                                         predict.args = list( 'type' = 'response')")})
+	      moProp <- buildModelObj(model = as.formula(myProp), solver.method = 'glm', 
+	                              solver.args = list( 'family' = 'binomial' ),  
+	                              predict.method = 'predict.glm', 
+	                              predict.args = list( 'type' = 'response'))
+	      
+	      # build moMain
+	      varMainVector <- as.vector(input$varMain)
+	      myMain <- paste("~", paste(varMainVector, collapse=" + "))
+	      output$myMain <- renderText({paste("moMain <- buildModelObj(model =",  
+	                                         myMain, ",  solver.method='lm')")})
+	      moMain <- buildModelObj(model = as.formula(myMain), solver.method='lm')
+	      
+	      # build moCont
+	      varContVector <- as.vector(input$varCont)
+	      myCont <- paste("~", paste(varContVector, collapse=" + "))
+	      output$myCont <- renderText({paste("moCont <- buildModelObj(model =",  
+	                                         myCont, ",  solver.method='lm')")})
+	      moCont <- buildModelObj(model = as.formula(myCont), solver.method='lm')
+	      
+	      # extract the response
+	      y <- as.numeric(unlist(df[names(df) == input$varResponse]))
+	      
+	      # extract the treatment variable
+	      tx.vars <- input$varTrt
+	      browser()
+	      #---------------------------------   
+	      # Define the classification model 
+	      #---------------------------------
+	      varClassVector <- as.vector(input$varClass)
+	      myClass <- paste("~", paste(varClassVector, collapse=" + "))
+	      output$myClass <- renderText({paste("moClass <- buildModelObj(model =",  
+	                                          myClass, ",  solver.method='lm')")})
+	      
+	      class <- buildModelObj(model = as.formula(myClass), 
+	                             solver.method =  'rpart' , 
+	                             solver.args = list(method = 'class'), 
+	                             predict.args = list(type= 'class'))
+	      
+	      
+	      # classification solve
+	      estAIPWE <- optimalClass(moPropen = moProp,
+	                               moMain = moMain,
+	                               moCont = moCont,
+	                               moClass = class,
+	                               data = df,
+	                               response = y,
+	                               txName = tx.vars,
+	                               iter=0)
+	      
+	      # coeff into data frame
+	      output$optClass <- renderText({ print(estimator(estAIPWE)) })
+	      
+	      # output coef
+	      #output$coeffTbl = renderTable({
+	      #  if (input$getmodel == 0) return(NULL)
+	      #  coeffTbl})
+	      #output$res <- renderText({head(residuals(fitQ1))})
+	      #output$plot1 <- renderPlot({plot(fitQ1, which=1)})
+	      #output$plot2 <- renderPlot({plot(fitQ1, which=2)})
+	      #output$plot3 <- renderPlot({plot(fitQ1, which=3)})
+	      #output$plot4 <- renderPlot({plot(fitQ1, which=5)})
+	      })  
+	  }) })
+ 

@@ -1,9 +1,12 @@
-library(markdown)
 library(shiny)
+library(markdown)
 library(shinydashboard)
 library(DynTxRegime)
 library(DT)
+library(rgenoud)
+
 source("./modules/uploadDat.R")
+
 header <-
   dashboardHeader(title = "Dynamic Treatment Regimes",titleWidth = 350, disable = FALSE)
 
@@ -121,9 +124,7 @@ body <- dashboardBody(
     tabItem(tabName = "dataone",
             uiOutput("dataone")),
     tabItem(tabName = "or",
-            withMathJax(
-              includeMarkdown("./www/outcome_regress.Rmd")
-            )),
+            withMathJax(includeMarkdown("./www/outcome_regress.Rmd"))),
     tabItem(tabName = "orc",
             uiOutput("orc")),
     tabItem(tabName = "aipwe",
@@ -201,12 +202,52 @@ body <- dashboardBody(
                 )
               )
             )
-          )
+           )
+         ),
+        tabPanel("Classification Method", 
+                 fluidPage(
+                   h4("Specify treatment variable and build your modeling objects."),
+                   p("Before running the optimalSeq function, we need to for the 
+                     treatment variable. This tells optimalSeq 'optimalSeq' which 
+                     columns of data correspond to treatments, and build the modeling 
+                     objects for propensity score (moPropen) and conditional expectations
+                     (expec.main and expec.cont), You may specify your treatment variable 
+                     and response varible below. You may also choose the covariates to include
+                     in and solver for each model. Here, we choose the solver to be glm for 
+                     modeling propensity score and gl for conditional expectations."),
+                    sidebarLayout(
+                      sidebarPanel(
+                       uiOutput("varTrt"),
+                       uiOutput("varResponse"),
+                       uiOutput("varProp"),
+                       uiOutput("varMain"),
+                       uiOutput("varCont"),
+                       uiOutput("varClass")
+                     ),
+                     mainPanel(
+                       fluidPage(
+                         h6("Estimate the optimal regime"),
+                         actionButton("getmodel", "GO"),
+                         uiOutput("optClass"),
+                         code(textOutput("myProp")),
+                         code(textOutput("myMain")),
+                         code(textOutput("myCont")),
+                         code(textOutput("myAIPWE")),
+                         h6("We may extract the coefficient estimated value by  function coeff()"),
+                         code("coef(fitQ1)"),
+                         tableOutput("coeffTbl"),
+                         code(textOutput("ft"))
+                         
+                  )
+                )
+              )
+            )
+         )
         )
-       )
       )
     )
-    
+  )
+
     
 #     tabPanel("Build and Fit Models",
 #              fluidPage(
@@ -262,7 +303,7 @@ body <- dashboardBody(
 #         plotOutput("plot4")
 #       )
 #     )
-    )
+
 
 
 

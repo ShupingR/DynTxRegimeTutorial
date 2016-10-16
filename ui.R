@@ -160,84 +160,113 @@ body <- dashboardBody(
           actionButton("getplot", "Go"),
           plotOutput("plot0")
         ),
-        tabPanel("Outcome Regression",
-          fluidPage(
-            sidebarLayout(
-              sidebarPanel(
-                uiOutput("varTrtR"),
-                uiOutput("varResponseR"),
-                uiOutput("varMainR"),
-                uiOutput("solverMainR"),
-                uiOutput("varContR"),
-                uiOutput("solverContR")
-                ),
-              mainPanel(
+        tabPanel("Methods",
+          sidebarLayout(
+            sidebarPanel(
+              radioButtons("radio", label = h3("Choose a method"),
+                           choices = list("Outcome Regression" = 1, "AIPWE" = 2, "Classification Method" = 3), 
+                           selected = 1)),
+            mainPanel(
+              # Only show this panel if the plot type is a histogram
+              conditionalPanel(
+                condition = "input.radio == '1'",
                 fluidPage(
-                  h4("Build your model objects for main effect and contrast and fit"),
-                  p("To build model objects for main effect (moMain) and
-                    contrast (moCont). You may specify your treatment variable and response
-                    varible below. You may also choose the covariates to include in and
-                    solver for each model. Here, we choose the solver to be lm. Yet,
-                    other methods, such as glm, can be used for each model independently.
-                    This step can be achieved using the function buildModelObj(), followed by
-                    call the qLearn() function to fit the models together."),
-                  h6("Fit the model specified"),
-                    actionButton("getmodelR", "GO"),
-                    code(textOutput("myMainR")),
-                    code(textOutput("myContR")),
-                    code(textOutput("myFitQ1")),
-                  h6("We may extract the coefficient estimated value by  function coeff()"),
-                  code("coef(fitQ1)"),
-                  tableOutput("coeffTbl"),
-                  h6("We may use the function plot() to obtain the diagnostic plots for fitted model"),
-                  code("plot(fitQ1)"),
-                  fluidRow(
-                    column(6, plotOutput("plot1")),
-                    column(6, plotOutput("plot2"))
-                  ),
-                  fluidRow(
-                    column(6, plotOutput("plot3")),
-                    column(6, plotOutput("plot4"))
-                  )
-                )
-              )
-            )
-           )
-          ),
-        tabPanel("Classification Method", 
-                 fluidPage(
-                   h4("Specify treatment variable and build your modeling objects."),
-                   p("Before running the optimalSeq function, we need to for the 
-                     treatment variable. This tells optimalSeq 'optimalSeq' which 
-                     columns of data correspond to treatments, and build the modeling 
-                     objects for propensity score (moPropen) and conditional expectations
-                     (expec.main and expec.cont), You may specify your treatment variable 
-                     and response varible below. You may also choose the covariates to include
-                     in and solver for each model. Here, we choose the solver to be glm for 
-                     modeling propensity score and gl for conditional expectations."),
-                   
-                   sidebarLayout(
-                     sidebarPanel(
-                       uiOutput("varTrtC"),
-                       uiOutput("varResponseC"),
-                       uiOutput("varPropC"),
-                       uiOutput("varMainC"),
-                       uiOutput("varContC"),
-                       uiOutput("varClass")
-                       ),
-                     mainPanel(
-                       fluidPage(
-                         h6("Estimate the optimal regime"),
-                         actionButton("getmodelC", "GO"),
-                         uiOutput("optClass")
-                       )
+                  sidebarLayout(
+                    sidebarPanel(
+                      uiOutput("varTrtR"),
+                      uiOutput("varResponseR"),
+                      uiOutput("varMainR"),
+                      uiOutput("solverMainR"),
+                      uiOutput("varContR"),
+                      uiOutput("solverContR")
+                    ),
+                    mainPanel(
+                      fluidPage(
+                        h2("Outcome Regression"),
+                        h4("Build your model objects for main effect and contrast and fit"),
+                        p("To build model objects for main effect (moMain) and
+                          contrast (moCont). You may specify your treatment variable and response
+                          varible below. You may also choose the covariates to include in and
+                          solver for each model. Here, we choose the solver to be lm. Yet,
+                          other methods, such as glm, can be used for each model independently.
+                          This step can be achieved using the function buildModelObj(), followed by
+                          call the qLearn() function to fit the models together."),
+                        h6("Fit the model specified"),
+                        actionButton("getmodelR", "GO"),
+                        code(textOutput("myMainR")),
+                        code(textOutput("myContR")),
+                        code(textOutput("myFitQ1")),
+                        h6("We may extract the coefficient estimated value by  function coeff()"),
+                        code("coef(fitQ1)"),
+                        tableOutput("coeffTbl"),
+                        h6("We may use the function plot() to obtain the diagnostic plots for fitted model"),
+                        code("plot(fitQ1)"),
+                        fluidRow(
+                          column(6, plotOutput("plot1")),
+                          column(6, plotOutput("plot2"))
+                          ),
+                        fluidRow(
+                          column(6, plotOutput("plot3")),
+                          column(6, plotOutput("plot4"))
+                          )
+                        )
+                      )
                     )
-             )
-        )
+                  )
+                ),
+            
+              # Only show this panel if Custom is selected
+              conditionalPanel(
+                condition = "input.radio == '2'",
+                
+                fluidPage(
+                  h4("Specify treatment variable and build your modeling objects."),
+                  p("Before running the optimalSeq function, we need to for the 
+                    treatment variable. This tells optimalSeq 'optimalSeq' which 
+                    columns of data correspond to treatments, and build the modeling 
+                    objects for propensity score (moPropen) and conditional expectations
+                    (expec.main and expec.cont), You may specify your treatment variable 
+                    and response varible below. You may also choose the covariates to include
+                    in and solver for each model. Here, we choose the solver to be glm for 
+                    modeling propensity score and gl for conditional expectations."),
+                  
+                  sidebarLayout(
+                    sidebarPanel(
+                      uiOutput("varTrtC"),
+                      uiOutput("varResponseC"),
+                      uiOutput("varPropC"),
+                      uiOutput("varMainC"),
+                      uiOutput("varContC"),
+                      uiOutput("varClass")
+                    ),
+                    mainPanel(
+                      fluidPage(
+                        h2("Classification"),
+                        h6("Estimate the optimal regime"),
+                        actionButton("getmodelC", "GO"),
+                        uiOutput("optClass")
+                        )
+                      )
+                    )
+                  ),
+            
+              # Only show this panel if Custom is selected
+              conditionalPanel(
+                condition = "input.radio == '3'",
+                h2("R3"))
+            )
+          )
+#         tabPanel("Outcome Regression",
+
+#           ),
+#        tabPanel("Classification Method", 
+
+          )
         )
       )
     )
-))
+  )
+)
 
     
 

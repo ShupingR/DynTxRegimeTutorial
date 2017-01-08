@@ -1,13 +1,4 @@
 ## Point Exposure Studies (Cont'd)
 
 #### Observational studies
-In some cases, randomized studies might not be logistically practical or may even violate ethical standards. In these instances, we use observational studies. Unfortunately, in observational studies, the patient characteristics and treatment assignments are not under the control of the investigators. Due to the lack of a randomized mechanism for treatment assignment, it is hard to control confounding phenomena. As a result, some researchers are not confident in causal inferences drawn from observational studies.  Nevertheless, in the 1970's, Rubin extended the causal inference framework from randomized studies to observational studies, with some assumptions [1,2,3]. 
-
-
-
-
-*1. Rubin, Donald (1974). "Estimating Causal Effects of Treatments in Randomized and Nonrandomized Studies". J. Educ. Psychol. 66 (5): 688–701 [p. 689]. doi:10.1037/h0037350.*
-
-*2. Rubin, Donald (2005). "Causal Inference Using Potential Outcomes". J. Amer. Statist. Assoc. 100 (469): 322–331. doi:10.1198/016214504000001880.*
-
-*3. Sekhon, Jasjeet (2007). "The Neyman-Rubin Model of Causal Inference and Estimation via Matching Methods". The Oxford Handbook of Political Methodology.*
+In some cases, randomized studies might not be logistically practical or may even violate ethical standards. In these instances, we use observational studies. Unfortunately, in observational studies, the patient characteristics and treatment assignments are not under the control of the investigators. Due to the lack of a randomized mechanism for treatment assignment, it is hard to control confounding phenomena. As a result, some researchers are not confident in causal inferences drawn from observational studies.  Nevertheless, in the 1970's, Rubin extended the causal inference framework from randomized studies to observational studies under certain assumptions (described later). 

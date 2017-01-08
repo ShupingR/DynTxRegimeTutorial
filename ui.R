@@ -6,7 +6,7 @@ library(DT)
 library(rgenoud)
 
 source("./modules/uploadDat.R")
-
+source("./modules/pagerui.R")
 header <-
   dashboardHeader(title = "Dynamic Treatment Regimes",titleWidth = 350, disable = FALSE)
 
@@ -35,9 +35,9 @@ sidebar <- dashboardSidebar(
       menuItem(
         text = "Three Necessary Assumptions",
         menuSubItem(text = "Necessary Assumptions", tabName = "na1"),
-        menuSubItem(text = "SUTVA", tabName = "sutva"),
-        menuSubItem(text = "NUC", tabName = "nuc"),
-        menuSubItem(text = "Positivity", tabName = "pos"),
+        menuSubItem(text = "Assumption 1 : SUTVA", tabName = "sutva"),
+        menuSubItem(text = "Assumption 2 : NUC", tabName = "nuc"),
+        menuSubItem(text = "Assumption 3 : Positivity", tabName = "pos"),
         menuSubItem(text = "Necessary Assumptions (Cont'd)", tabName = "na2")
       ),
       menuItem(text = "Optimal Treatment Regimes", tabName = "otr")
@@ -63,7 +63,8 @@ sidebar <- dashboardSidebar(
         menuSubItem(text = "Case Study", tabName = "cc")
       ),
       menuItem(text = "Hands-on", tabName = "handson")
-    )
+    ),
+    menuItem(text = "Reference", tabName = "ref")
   )
 )
 
@@ -72,34 +73,29 @@ body <- dashboardBody(
     tabItem(tabName = "mot",
             withMathJax(
               includeMarkdown("./www/background/begin.Rmd")
-            )),
+              )),
     tabItem(tabName = "ice",
             withMathJax(
               includeMarkdown("./www/background/effect_1.Rmd")
-            )),
+              )),
     tabItem(tabName = "ace",
             withMathJax(
               includeMarkdown("./www/background/effect_2.Rmd")
             )),
     tabItem(tabName = "sce",
-            withMathJax(
-              includeMarkdown("./www/background/effect_3.Rmd")
+            withMathJax(includeMarkdown("./www/background/effect_3.Rmd")
             )),
     tabItem(tabName = "rs",
-            withMathJax(
-              includeMarkdown("./www/background/point_1.Rmd")
+            withMathJax(includeMarkdown("./www/background/point_1.Rmd")
             )),
     tabItem(tabName = "os",
-            withMathJax(
-              includeMarkdown("./www/background/point_2.Rmd")
+            withMathJax(includeMarkdown("./www/background/point_2.Rmd")
             )),
     tabItem(tabName = "not",
-            withMathJax(
-              includeMarkdown("./www/background/notation.Rmd")
+            withMathJax(includeMarkdown("./www/background/notation.Rmd")
             )),
     tabItem(tabName = "na1",
-            withMathJax(
-              includeMarkdown("./www/background/assumption1.Rmd")
+            withMathJax(includeMarkdown("./www/background/assumption1.Rmd")
             )),
     tabItem(tabName = "sutva",
             withMathJax(
@@ -135,6 +131,9 @@ body <- dashboardBody(
             withMathJax(includeMarkdown("./www/class.Rmd"))),
     tabItem(tabName = "cc",
             uiOutput("cc")),
+    tabItem(tabName = "ref",
+            withMathJax(includeMarkdown("./www/background/reference.Rmd"))),
+    
     tabItem(
       tabName = "handson",
       tabsetPanel(
@@ -191,15 +190,19 @@ body <- dashboardBody(
                           other methods, such as glm, can be used for each model independently.
                           This step can be achieved using the function buildModelObj(), followed by
                           call the qLearn() function to fit the models together."),
-                        h6("Fit the model specified"),
+                        h4("Fit the model specified"),
                         actionButton("getmodelR", "GO"),
-                        code(textOutput("myMainR")),
-                        code(textOutput("myContR")),
-                        code(textOutput("myFitQ1")),
-                        h6("We may extract the coefficient estimated value by  function coeff()"),
+                        p("The corresponding code:"),
+                        code(
+                        textOutput("myMainR"),
+                        textOutput("myContR"),
+                        textOutput("myFitQ1")),
+                        h4("Extract the estimated coefficients"),
+                        p("We may extract the estimated coefficients by  function coeff()"),
                         code("coef(fitQ1)"),
                         tableOutput("coeffTbl"),
-                        h6("We may use the function plot() to obtain the diagnostic plots for fitted model"),
+                        h4("Diagnostic plots"),
+                        p("We may use the function plot() to obtain the diagnostic plots for fitted model"),
                         code("plot(fitQ1)"),
                         fluidRow(
                           column(6, plotOutput("plot1")),
@@ -214,21 +217,57 @@ body <- dashboardBody(
                     )
                   )
                 ),
-            
-              # Only show this panel if Custom is selected
               conditionalPanel(
                 condition = "input.radio == '2'",
+                fluidPage(
+                   #interaction not included yet
+                  sidebarLayout(
+                    sidebarPanel(
+                      uiOutput("varTrtA"),
+                      uiOutput("varResponseA"),
+                      uiOutput("varPropA"),
+                      # uiOutput("solverProp"),
+                      uiOutput("varMainA"),
+                      #  uiOutput("solverMain"),
+                      uiOutput("varContA"),
+                      #  uiOutput("solverCont"),
+                      uiOutput("varRuleA")
+                      #uiOutput("solverCont")
+                    ),
+                    mainPanel(
+                      fluidPage(
+                        h2("Augmented Inverse Probility Weighted Estimator"),
+                        h4("Specify treatment variable and build your modeling objects."),
+                        p("Before running the optimalSeq function, we need to for the 
+                          treatment variable. This tells optimalSeq 'optimalSeq' which 
+                          columns of data correspond to treatments, and build the modeling 
+                          objects for propensity score (moPropen) and conditional expectations 
+                          of the main and contrast effect (expec.main and expec.cont).
+                          You may specify your treatment variable and response varible below. 
+                          You may also choose the covariates to include in and solver for each model. 
+                          Here, we choose the solver to be glm for modeling propensity score and 
+                          gl for conditional expectations."),
+                        h4("Estimate the optimal regime"),
+                        actionButton("getmodelA", "GO"),
+                        p("The estimated optimal regime value is,"),
+                        uiOutput("ftest"),
+                        p("The corresponding code for build models:"),
+                        code(
+                        textOutput("myPropA"),
+                        textOutput("myMainA"),
+                        textOutput("myContA"))
+                       
+                      )
+                     )
+                   )
+                  )
+                ),
+              # Only show this panel if Custom is selected
+              conditionalPanel(
+                condition = "input.radio == '3'",
                 
                 fluidPage(
-                  h4("Specify treatment variable and build your modeling objects."),
-                  p("Before running the optimalSeq function, we need to for the 
-                    treatment variable. This tells optimalSeq 'optimalSeq' which 
-                    columns of data correspond to treatments, and build the modeling 
-                    objects for propensity score (moPropen) and conditional expectations
-                    (expec.main and expec.cont), You may specify your treatment variable 
-                    and response varible below. You may also choose the covariates to include
-                    in and solver for each model. Here, we choose the solver to be glm for 
-                    modeling propensity score and gl for conditional expectations."),
+
                   
                   sidebarLayout(
                     sidebarPanel(
@@ -242,31 +281,30 @@ body <- dashboardBody(
                     mainPanel(
                       fluidPage(
                         h2("Classification"),
+                        h4("Specify treatment variable and build your modeling objects."),
+                        p("Before running the optimalClass function, we need to for the 
+                          treatment variable. This tells optimalClass 'optimalClass' which 
+                          columns of data correspond to treatments, and build the modeling 
+                          objects for propensity score (moPropen) and conditional expectations
+                          (moMain and moCont), You may specify your treatment variable 
+                          and response varible You may also choose the covariates to include
+                          in and solver for each model. You may also choose variables to specify
+                          the class of regimes. For simplicity, we are restrict to linear decision
+                          rule with the form a + b x1 + c x2."),
                         h6("Estimate the optimal regime"),
                         actionButton("getmodelC", "GO"),
                         uiOutput("optClass")
                         )
                       )
                     )
-                  ),
-            
-              # Only show this panel if Custom is selected
-              conditionalPanel(
-                condition = "input.radio == '3'",
-                h2("R3"))
-            )
-          )
-#         tabPanel("Outcome Regression",
-
-#           ),
-#        tabPanel("Classification Method", 
-
+                  )
+                
           )
         )
       )
     )
   )
-)
+)))
 
     
 

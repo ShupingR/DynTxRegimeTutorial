@@ -2,23 +2,25 @@
 #### Treatment regimes in Point Exposure studies
 Besides estimating average causal treatment effect, another interesting question is how we can use patient characteristics information, covariates $\boldsymbol{X}$, to inform  treatment assignment in a single stage decision making setting. In other words, we can come up with some decision rule that guides what treatment a patient should receive based on his or her value of $\boldsymbol{X}$. This leads us to the concept of treatment regimes. Formally, a treatment regime is defined as a function $d$ that maps the sample space of covariates $\boldsymbol{X}$, $\mathscr{X}$, to the space of all feasible treatments (it is $\{ 0, 1 \}$ in this case). Based on the treatment regime $d$,  a patient with $\boldsymbol{X} = \boldsymbol{x}$ will be assigned to treatment 0, if $d(\boldsymbol{x}) = 0$; and treatment 1, if $d(\boldsymbol{x}) = 1$.
 
-> **The potential outcome of a treatment regime $d$**:
+**The potential outcome of a treatment regime $d$**:
 For a certain treatment regime $d$, we define its potential outcome as
-$$Y^{*} ( d ) = Y^{*}(1)\mathbf{I}\{d\left(x\right)=1\} + Y^{*}\left(0\right)\mathbf{I}\left\{d\left(x\right)=0\right\}.$$
+$$Y^{*}_{d} = Y^{*}_{A=1}\mathbf{I}\{d\left(x\right)=1\} + Y^{*}_{A=0}\mathbf{I}\left(d\left(x\right)=0\right).$$
+
 where $\mathbf{I}(\cdot)$ is the indicator function. It takes value 1 if the condition in the parenthesis is satisfied, and 0 otherwise. This denote the potential outcome of an individual in the population of interest, if he or she is assigned treatment in accordance to treatment regime $d$.
 
-For instance, we have a patient with $\boldsymbol{X}=\boldsymbol{x}$ ,and we plan to treat the patient by following the treatment rule $d$. Our calculation get the value of $d(\boldsymbol{x})=1$. Then, we have $\mathbf{I}\{d\left(x\right)=1\} =1$ , and $\mathbf{I}\{d\left(x\right)=0\} =0$. The potential outcome of the regime $d$ for that patient with $\boldsymbol{X}=\boldsymbol{x}$ equals to $Y^{*} ( d ) = Y^{*}(1)*1 + Y^{*}\left(0\right)*0 = Y^{*}(1)$. Similar calculation applies when $d(\boldsymbol{x})=0$.
+For instance, we have a patient with $\boldsymbol{X}=\boldsymbol{x}$ ,and we plan to treat the patient by following the treatment rule $d$. Our calculation get the value of $d(\boldsymbol{x})=1$. Then, we have $\mathbf{I}\{d\left(x\right)=1\} =1$ , and $\mathbf{I}\{d\left(x\right)=0\} =0$. The potential outcome of the regime $d$ for that patient with $\boldsymbol{X}=\boldsymbol{x}$ equals to $Y^{*} _d = Y^{*}_{A=1}*1 + Y^{*}_{A=0}*0 = Y^{*}_{A=1}$. Similar calculation applies when $d(\boldsymbol{x})=0$.
 
 The very next question is what is an optimal treatment regime for the population of interest. 
 
-> **Optimal treatment regimes in point exposure studies**:
+**Optimal treatment regimes in point exposure studies**:
 Let's denote the class of all possible treatment regimes, i.e., the class of all functions, by $\mathscr{D}$. An optimal treatment regime $d^{opt} \in \mathscr{D}$ is an treatment rule that maximizes the average potential outcome of the population of interest when everyone in the population is treated according to the regime $d$. Mathmatically, 
-$$d^{opt} = \underset{d \in \mathscr{D}}{\text{argmax}} \,E\left\{ Y^{*}\left( d\right)\right\}.$$
+$$d^{opt} = \underset{d \in \mathscr{D}}{\text{argmax}} \,E\left( Y^{*}_{d}\right).$$
 
 This is equivalent to 
-$$E\left\{ Y^{*} \left( d^{opt} \right) \right\} \ge E\left\{ Y^{*} \left( d \right) \right\}\text{, for all }d \in \mathscr{D}.$$
+
+$$E\left( Y^{*}_{d^{opt}} \right) \ge E\left( Y^{*}_d \right)\text{, for all }d \in \mathscr{D}.$$
 
 It is also equivalent to that, for all $\boldsymbol{x} \in \mathscr{X}$, where $\mathscr{X}$ is the sample space of covariate $\boldsymbol{x}$, we have
-$$E\left\{ Y^{*} \left( d^{opt} \right) \mid \boldsymbol{X}=\boldsymbol{x} \right\} \ge E\left\{ Y^{*} \left( d \right)\mid \boldsymbol{X}=\boldsymbol{x} \right\} \text{, for all }d \in \mathscr{D}.$$
+$$E\left( Y^{*} _{d^{opt}} \mid \boldsymbol{X}=\boldsymbol{x} \right) \ge E\left( Y^{*}_d\mid \boldsymbol{X}=\boldsymbol{x} \right) \text{, for all }d \in \mathscr{D}.$$
 
 Then, the next question comes up is how to find an optimal regime. More precisely, how can we estimate an optimal regime using observed data $(\boldsymbol{X}, Y, A)$ from randomized, or observational studies if applicable. 

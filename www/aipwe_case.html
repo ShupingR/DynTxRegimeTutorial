@@ -125,7 +125,7 @@ library(DynTxRegime)
 library(rgenoud)</code></pre>
 <p>The ‘rgenound’ package is required for maximizing AIPWE.</p>
 <!-- create the one-stage BMIdata by deleting month12BMI and A2 -->
-<p>We use the same dataset used in outcome regression method, <a href="potentially%20put%20the%20server%20link%20to%20it," title="Previous on bmiDataOne">bmiDataOne</a>. Dataset has been prepared by the same steps as in outcome regression method case study.</p>
+<p>We use the same dataset used in outcome regression method, bmiDataOne. Dataset has been prepared by the same steps as in outcome regression method case study.</p>
 <pre class="r"><code># Data
 head(bmiDataOne)</code></pre>
 <pre><code>##   gender race parentBMI baselineBMI month4BMI A1         y
@@ -138,7 +138,7 @@ head(bmiDataOne)</code></pre>
 <p>AIPWE is wrapped in the function ‘optimalSeq’ in the ‘DynTxRegime’ package. First, we need to tell ‘optimalSeq’ which columns of data correspond to treatments. To do so, we assign treatment column name ``A1&quot; to tx.vars.</p>
 <pre class="r"><code># tx.var tells optimal which columns of data correspond to treatments.
 tx.vars &lt;- &quot;A1&quot;</code></pre>
-<p>Second step is to build modeling object for the <a href="possible%20link," title="A propensity score is the probability of assigning a subject to a specific treatment given his/er observed covariates. More details on IPWE.">propensity scores</a> of treatments. As before, we use the “buildModelObj” function to create this modeling object.</p>
+<p>Second step is to build modeling object for the propensity scores of treatments. As before, we use the “buildModelObj” function to create this modeling object.</p>
 <pre class="r"><code># modeling.object for propensity of treatment.
 moPropen &lt;- buildModelObj(model = ~  gender + race + parentBMI + baselineBMI + month4BMI, solver.method = 'glm', solver.args = list( 'family' = 'binomial' ),  predict.method = 'predict.glm', predict.args = list( 'type' = 'response'))</code></pre>
 <p>The covariates included in moPropen modeling object are gender, race, parentBMI and baselineBMI. solver.method is used to specify the method for fitting models, and Generalized Linear Model (‘glm’) is used here. The “solver.args”&quot; is a list of additional arguments needed for the specific “solver.method”. By defining ‘family’ as ‘binomial’ in the list, the ‘logit’ link is used for ‘glm’ fitting . The “predict.method” is to define the R function for predictions, and ‘predict.glm’ is used here. If not specified, R generic prediction function ‘predict’ is used. the type of prediction required. The “predict.args” is a list of additional arguments for “predict.method”. In the list, by setting ‘type’ to ‘response’, prediction is made on the scale of the response variable. For more details, use commands “help(buildModelObject)” and “help(glm)”</p>
@@ -146,7 +146,7 @@ moPropen &lt;- buildModelObj(model = ~  gender + race + parentBMI + baselineBMI 
 <pre class="r"><code># modeling.object for conditional expectation models
 expec.main &lt;- buildModelObj(model =  ~ parentBMI + baselineBMI + A1 + A1:(parentBMI + baselineBMI),  solver.method =  'lm' )
 expec.cont &lt;- NULL </code></pre>
-<p>For simplicity, the conditional expectation is modeled as a whole, without seperately modeling moMain and moCont as in outcome regressiom method. The model includes the covariates, parentBMI , baselineBMI , A1 and the interaction term A1*(parentBMI + baselineBMI). It is also an option to model the main effect and the contrast seperately as in outcome regression method. More details for building modeling objects, please see the case study of <a href="possible%20link," title="Case study of outcome regression method">outcome regression method</a> . If we set both expec.main and expec.cont to be NULL, then <a href="possible%20link," title="more details on IPWE">Inverse Probability Weighted Estimator</a> is used here.</p>
+<p>For simplicity, the conditional expectation is modeled as a whole, without seperately modeling moMain and moCont as in outcome regressiom method. The model includes the covariates, parentBMI , baselineBMI , A1 and the interaction term A1*(parentBMI + baselineBMI). It is also an option to model the main effect and the contrast seperately as in outcome regression method. More details for building modeling objects, please see the case study of outcome regression method. If we set both expec.main and expec.cont to be NULL, then Inverse Probability Weighted Estimator is used here.</p>
 <p>Then, the next step is to define the class of treatment regim rules of interest.</p>
 <pre class="r"><code># treatment regime rules at the decision point.
 tx.rules &lt;- function(a,b,c,data){

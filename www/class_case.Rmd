@@ -65,7 +65,7 @@ We use the modeling with the form of
 $$Q(\boldsymbol{x}, a)= m(\boldsymbol{x}_0;\boldsymbol{\beta}) +  a\cdot c(\boldsymbol{x}_1;\boldsymbol{\gamma}),$$
 where the main effect and the contrast (or treatment effect) are modeled separately.
 
-We use the buildModelObj function to create a modeling object for the main effect component, named moMain.   
+We use the buildModelObj function to create a modeling object for the main effect component, named expec.main.   
 ```{r}
 #----------------------------------------------------#
 # Create modeling object for main effect component
@@ -81,11 +81,9 @@ Then, we crest a modeling object for the contrast component, called moCont, usin
 #----------------------------------------------------#
 expec.cont <- buildModelObj(model = ~ gender + parentBMI, solver.method='lm')
 ```
-The covariates included in moCont modeling are gender and  parentBMI. Argument solver.method is set to be the same method 'lm' .
-
+The covariates included in moCont modeling are gender and  parentBMI. Argument solver.method is set to be the same method 'lm'. 
 
 **Define the classification model**
-
 Then we need to define the model for classification. This is equivalent to define the regime function $g(x)$. By doing so, we specify the class of regime under consideration. Here, we consider a linear decision rule combining all the covariates recorded.
 
 ```{r}
@@ -115,31 +113,20 @@ estAIPWE <- optimalClass(moPropen = propen,
                          txName = tx.vars,
                          iter=0)
 ```
+
+To retrieve the information of the estimator, we can use 'estimator(estAIPWE)'. 'outcome(estAIPWE)' and 'propen(estAIPWE)' can be used to retrieve information of the outcome regression model and the propensity score model, respectivly.
+
+
+Moreover, the function "optimalClass" can also be used to construct the inverse probability weighted estimator by setting moMain and moCont as NULL and only specify the propensity score model.
 ```{r}
-estimator(estAIPWE)
-classif(estAIPWE)
-outcome(estAIPWE)
-propen(estAIPWE)
-head(optTx(estAIPWE))
-```
-
-
-
-
-
-<!---
-
 estIPWE <- optimalClass(moPropen = propen,
                         moMain = NULL,
                         moCont = NULL,
                         moClass = class,
                         data = bmiDataOne,
-                        response = y,
+                        response = bmiDataOne$y,
                         txName = tx.vars,
                         iter=0)
-estimator(estIPWE)
-classif(estIPWE)
-propen(estIPWE)
-head(optTx(estIPWE))
---->
+```
+
 

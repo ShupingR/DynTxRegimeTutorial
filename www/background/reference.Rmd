@@ -21,7 +21,7 @@
 
 * Hernán MA, Robins JM (2016). Causal Inference. Boca Raton: Chapman & Hall/CRC, forthcoming.*
 
-*Tsiatis, A. A. Causal Inference Lecture Notes.*
+* Tsiatis, A. A. Causal Inference Lecture Notes.*
 
 #### Methods
 * Laber, E. B., Linn, K. A., and Stefanski, L. A. (2014). Interactive Q-learning. Biometrika.*

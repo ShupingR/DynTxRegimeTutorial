@@ -10,47 +10,8 @@ library(rgenoud)
 options(shiny.maxRequestSize=5*1024^2)
 shinyServer(
 	function(input, output, session) {
-	  ##------------------------ Page navigation --------------------------#
-	  
-	  #-----------------------
-	  # Navigation throught pages (Need work)
-	  #-----------------------
-	  
-	  #output$debug = renderPrint({
-	  # str(input$pager)
-	  #})
-	  
-	  # output$table = renderTable({
-	  #   Sys.sleep(input$num_page_delay)
-	  #   data = data()
-	  #   rows = pages()[[input$pager$page_current]]
-	  #   
-	  #   data[rows,]
-	  # })
-	  
-	  # observeEvent(
-	  #   eventExpr = {
-	  #     input$paper
-	  #   },
-	  #   handlerExpr = {
-	  #     
-	  #     pages_total = 22
-	  #     
-	  #     page_current = input$pager$page_current
-	  #     if (input$pager$page_current > pages_total) {
-	  #       page_current = pages_total
-	  #     }
-	  #     
-	  #     updatePageruiInput(
-	  #       session, 'pager',
-	  #       page_current = page_current,
-	  #       pages_total = pages_total
-	  #     )
-	  #   }
-	  # )
-	  # 
-	  
-	  ##------------------------ Load html files  --------------------------#
+
+	  ##------------------------ Load html files of case studies for methods --------------------------#
 	  
 	  #-----------------------
 	  # Include html files 
@@ -82,7 +43,7 @@ shinyServer(
 	    })
 
 
-	  ##------------------------ Load html files  --------------------------#
+	  ##----------------- Load csv file: input data  --------------------------#
 	  
 	  #-----------------------
 	  # Read uploaded csv file
@@ -106,16 +67,16 @@ shinyServer(
 	  # Scatter plots with Go button
 	  #   let user generate a scatter plot for the data uploaded
 	  #-----------------------------
-	  output$plot0 <- renderPlot({
-	    if (is.null(data())) return(NULL)
-	    df <-data()
-	    if (input$getplot == 0) return(NULL)
-	    pairs(df)
+	  observeEvent(input$getplot, {
+	    output$plot0 <- renderPlot({
+	      if (is.null(data())) return(NULL)
+	      df <-data()
+	      pairs(df)
+	    })
 	  })
 	  
-	  
 	  ########################################################################
-	  ##--------------------------- Hands-on  -------------------------------#
+	  ##--------------------------- Hands-on for Methods --------------------#
 	  ########################################################################
 	  
 	  ##--------------------- outcome regression ----------------------#
@@ -181,7 +142,8 @@ shinyServer(
 	  # Fit the model 
 	  #   fit the model specified by user
 	  #-------------  
-	  observe({
+	  observeEvent(input$getmodelR, {
+	  # observe({
 	    # check if data if uploaded
 	    if (is.null(data())) return(NULL)
 	    df <-data()
@@ -234,7 +196,7 @@ shinyServer(
 	    output$plot2 <- renderPlot({plot(fitQ1, which=2)})
 	    output$plot3 <- renderPlot({plot(fitQ1, which=3)})
 	    output$plot4 <- renderPlot({plot(fitQ1, which=5)})
-	    
+	  })
 	    ##--------------------------- AIPWE ---------------------------------------------#
 	    #------------------
 	    # Specify treatment 
@@ -316,7 +278,7 @@ shinyServer(
 	                         varName)
 	    })
 	    
-	    observe({
+	  observeEvent(input$getmodelA, {
 	      if (is.null(data())) return(NULL)
 	      df <-data()
 	      
@@ -480,7 +442,7 @@ shinyServer(
 	                         varName)
 	    })
 	    
-	    observe({
+      observeEvent(input$getmodelC, {
 	      
 	      if (is.null(data())) return(NULL)
 	      df <-data()
@@ -566,4 +528,4 @@ shinyServer(
 	      #output$plot4 <- renderPlot({plot(fitQ1, which=5)})
 	      })  
 	  })
-})})
+})

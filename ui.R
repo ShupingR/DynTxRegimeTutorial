@@ -6,7 +6,7 @@ library(DT)
 library(rgenoud)
 
 source("./modules/uploadDat.R")
-source("./modules/pagerui.R")
+
 header <-
   dashboardHeader(title = "Dynamic Treatment Regimes",titleWidth = 350, disable = FALSE)
 
@@ -153,8 +153,7 @@ body <- dashboardBody(
           "Data Explore",
           fluidPage(
             h4("Data Explore with Scatter Plots"),
-            p("You may use scatter plots to visualize your uploaded dataset."),
-            code("pairs(df)")
+            p("You may use scatter plots to visualize your uploaded dataset.")
           ),
           actionButton("getplot", "Go"),
           plotOutput("plot0")

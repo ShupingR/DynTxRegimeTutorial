@@ -1,0 +1,33 @@
+
+
+## Reference
+#### Background
+* Rubin, Donald (1974). "Estimating Causal Effects of Treatments in Randomized and Nonrandomized Studies". J. Educ. Psychol. 66 (5): 688–701 [p. 689]. doi:10.1037/h0037350.*
+
+* Rubin, Donald (2005). "Causal Inference Using Potential Outcomes". J. Amer. Statist. Assoc. 100 (469): 322–331. doi:10.1198/016214504000001880.*
+
+* Sekhon, Jasjeet (2007). "The Neyman-Rubin Model of Causal Inference and Estimation via Matching Methods". The Oxford Handbook of Political Methodology.*
+
+
+* Cox, David R. 1958. Planning of Experiments. §2.4. New York: Wiley.*
+
+* Rubin, Donald (1974). “Estimating Causal Effects of Treatments in Randomized and Nonrandomized Studies”. J. Educ. Psychol. 66 (5): 688–701 [p. 689]. doi:10.1037/h0037350.*
+
+* Donald Rubin (1977) "Assignment to Treatment Group on the Basis of a Covariate", Journal of Educational Statistics, 2, pp. 1–26.*
+
+* Greenland S, Robins JM: Identifiability, exchangeability, and epidemiological confounding. Int J Epidemiol 1986, 15:413–419.*
+
+* Greenland S, Robins JM, Pearl J: Confounding and collapsibility in causal inference. Statistical Science 1999, 14:29–46.*
+
+* Hernán MA, Robins JM (2016). Causal Inference. Boca Raton: Chapman & Hall/CRC, forthcoming.*
+
+* Tsiatis, A. A. Causal Inference Lecture Notes.*
+
+#### Methods
+* Laber, E. B., Linn, K. A., and Stefanski, L. A. (2014). Interactive Q-learning. Biometrika.*
+
+* Zhang, B., Tsiatis, A. A., Davidian, M., Zhang, M., and Laber, E. B. (2012). Estimating Optimal Treatment Regimes from a Classification Perspective. Stat, 1, 103–114.*
+
+* Zhang, B., Tsiatis, A. A., Laber, E. B., and Davidian, M. (2012). A Robust Method for Estimating Optimal Treatment Regimes. Biometrics, 68, 1010–1018.*
+
+* Zhang, B., Tsiatis, A. A., Laber, E. B., and Davidian, M. (2013) Robust Estimation of Optimal Dynamic Treatment Regimes for Sequential Treatment Decisions. Biometrika, 100, 681–694.*

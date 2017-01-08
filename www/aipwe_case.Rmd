@@ -1,7 +1,5 @@
----
-title: "Case Study for AIPWE"
-output: html_document
----
+## Case Study
+
 Here, we present a case study for augmented inverse probability weigthed estimator using the simulated data in the paper.
 
 To get the package ready, here are the few steps needed.
@@ -34,7 +32,7 @@ bmiDataOne$A1 <- as.integer(bmiDataOne$A1)
 bmiDataOne$y <- -100*(bmiDataOne[,5] - bmiDataOne[,4])/bmiDataOne[,4]
 ```
 
-We use the same dataset used in outcome regression method, [bmiDataOne](potentially put the server link to it, "Previous on bmiDataOne"). Dataset has been prepared by the same steps as in outcome regression method case study.
+We use the same dataset used in outcome regression method, bmiDataOne. Dataset has been prepared by the same steps as in outcome regression method case study.
 ```{r}
 # Data
 head(bmiDataOne)
@@ -45,7 +43,7 @@ AIPWE is wrapped in the function 'optimalSeq' in the 'DynTxRegime' package. Firs
 # tx.var tells optimal which columns of data correspond to treatments.
 tx.vars <- "A1"
 ```
-Second step is to build modeling object for the [propensity scores](possible link, "A propensity score is the probability of assigning a subject to a specific treatment given his/er observed covariates. More details on IPWE.") of treatments. As before, we use the "buildModelObj" function to create this modeling object.
+Second step is to build modeling object for the propensity scores of treatments. As before, we use the "buildModelObj" function to create this modeling object.
 ```{r}
 # modeling.object for propensity of treatment.
 moPropen <- buildModelObj(model = ~  gender + race + parentBMI + baselineBMI + month4BMI, solver.method = 'glm', solver.args = list( 'family' = 'binomial' ),  predict.method = 'predict.glm', predict.args = list( 'type' = 'response'))
@@ -58,7 +56,7 @@ The next step is to build a modeling object for the conditional expectation mode
 expec.main <- buildModelObj(model =  ~ parentBMI + baselineBMI + A1 + A1:(parentBMI + baselineBMI),  solver.method =  'lm' )
 expec.cont <- NULL 
 ```
-For simplicity, the conditional expectation is modeled as a whole, without seperately modeling moMain and moCont as in outcome regressiom method.  The model includes the covariates, parentBMI , baselineBMI , A1 and the interaction term A1*(parentBMI + baselineBMI). It is also an option to model the main effect and the contrast seperately as in outcome regression method. More details for building modeling objects, please see the case study of [outcome regression method](possible link, "Case study of outcome regression method") . If we set both expec.main and expec.cont to be NULL, then [Inverse Probability Weighted Estimator](possible link, "more details on IPWE") is used here.
+For simplicity, the conditional expectation is modeled as a whole, without seperately modeling moMain and moCont as in outcome regressiom method.  The model includes the covariates, parentBMI , baselineBMI , A1 and the interaction term A1*(parentBMI + baselineBMI). It is also an option to model the main effect and the contrast seperately as in outcome regression method. More details for building modeling objects, please see the case study of outcome regression method. If we set both expec.main and expec.cont to be NULL, then Inverse Probability Weighted Estimator is used here.
 
 
 Then, the next step is to define the class of treatment regim rules of interest. 

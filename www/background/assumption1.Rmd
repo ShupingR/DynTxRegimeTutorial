@@ -2,7 +2,7 @@
 When Rufus' family members come over, we carry out a randomized study to test the causal effect of our exercise plan for his family. We randomly assign everyone to following the plan $A=1$ or not $A=0$ by flipping a coin. Head is to follow the exercise plan, and tail is to not. After three months, we collect everyone's BMI, $Y$. We summarize our observed data, including Rufus', in the following table. 
 
 
-| Name        | Treatment $A$  |      BMI $Y$          |
+| Name   &nbsp;     |&nbsp; Treatment $A$&nbsp;  |      &nbsp;BMI $Y$   &nbsp;       |
 |-------------|:--------------:| :--------------------:|
 | Rufus       |       1        |      24               |
 | Linda       |       0        |      19.5             |
@@ -13,10 +13,10 @@ When Rufus' family members come over, we carry out a randomized study to test th
 
 
 
-The following table shows which potential outcome for each individual is missing in our observed data. We denote the BMI under treatment level $A=1$ as $Y^{*}(A=1)$, and the BMI under treatment level $A=0$ as $Y^{*}(A=0)$. Missing data is marked as $*$.
+The following table shows which potential outcome for each individual is missing in our observed data. We denote the BMI under treatment level $A=1$ as $Y^{*}_{A=1}$, and the BMI under treatment level $A=0$ as $Y^{*}_{A=0}$. Missing data is marked as $*$.
 
 
-| Name        | Treatment $A$ |     $Y^{*}(A=1)$    |     $Y^{*}(A=0)$   |
+| Name  &nbsp;      | &nbsp; Treatment $A$ &nbsp;|     &nbsp; $Y^{*}_{A=1}$  &nbsp;  |   &nbsp;  $Y^{*}_{A=0}$ &nbsp;  |
 |-------------|:-------------:| :------------------:| :-----------------:|
 | Rufus       |       1       |      24             |      *             |
 | Linda       |       0       |      *              |      19.5          |
@@ -26,4 +26,4 @@ The following table shows which potential outcome for each individual is missing
 
 
 
-With the concept of potential outcomes, we can think as each individual in the population of interest has a set of variables denoted $\{ \boldsymbol{X}, A, Y^{*}(0), Y^{*}(1), Y \}$. However, we only have observed data $(\boldsymbol{X}, A, Y)$. Now, the question is: how can we use the observed data from our randomized study to estimate the average causal effect of the treatment in the population of interest? In other words, how can we use data of $\{ \boldsymbol{X}, A, Y \}$ to deduce the distribution of $\{ \boldsymbol{X},  Y^{*}(0), Y^{*}(1)\}$. Before we can use the observed data to estimate the average causal effect or deduce the distributions of $Y^{*}(0)$ and $Y^{*}(1)$, three key assumptions are needed.
+With the concept of potential outcomes, we can think as each individual in the population of interest has a set of variables denoted $\{ \boldsymbol{X}, A, Y^{*}_{A=0}, Y^{*}_{A=1}, Y \}$. However, we only have observed data $(\boldsymbol{X}, A, Y)$. Now, the question is: how can we use the observed data from our randomized study to estimate the average causal effect of the treatment in the population of interest? In other words, how can we use data of $\{ \boldsymbol{X}, A, Y \}$ to deduce the distribution of $\{ \boldsymbol{X},  Y^{*}_{A=0}, Y^{*}_{A=1}\}$. Before we can use the observed data to estimate the average causal effect or deduce the distributions of $Y^{*}_{A=0}$ and $Y^{*}_{A=1}$, three key assumptions are needed.

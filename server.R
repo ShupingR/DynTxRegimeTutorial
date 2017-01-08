@@ -4,7 +4,7 @@ library(shinydashboard)
 library(DynTxRegime)
 library(DT)
 library(rgenoud)
-
+library(rpart)
 # server.R
 # Limit Upload Data Size to 5Mb
 options(shiny.maxRequestSize=5*1024^2)
@@ -199,8 +199,8 @@ shinyServer(
 	  })
 	    ##--------------------------- AIPWE ---------------------------------------------#
 	    #------------------
-	    # Specify treatment 
-	    #------------------
+	    # Let user specify treatment via selectInput
+	    #------------------ 
 	    output$varTrtA <- renderUI({
 	      if (is.null(data())) return(NULL)
 	      df <-data()
@@ -211,7 +211,7 @@ shinyServer(
 	    })
 	    
 	    #-----------------
-	    # Specify response
+	    # Let user specify response via selectInput
 	    #-----------------
 	    output$varResponseA <- renderUI({
 	      if (is.null(data())) return(NULL)
@@ -223,7 +223,7 @@ shinyServer(
 	    })
 	    
 	    #-------------
-	    # Build moProp
+	    # Let user choose variables for moProp via checkboxGroupInput
 	    #-------------
 	    output$varPropA <- renderUI({
 	      if (is.null(data())) return(NULL)
@@ -236,7 +236,7 @@ shinyServer(
 	                         varName)
 	    })
 	    #-------------
-	    # Build moMain
+	    # Let user choose variables for moMain via checkboxGroupInput
 	    #-------------
 	    output$varMainA <- renderUI({
 	      if (is.null(data())) return(NULL)
@@ -250,7 +250,7 @@ shinyServer(
 	    })
 	    
 	    #-------------
-	    # Build moCont
+	    # Let user choose variables for moCont via checkboxGroupInput
 	    #-------------
 	    output$varContA <- renderUI({
 	      if (is.null(data())) return(NULL)
@@ -264,7 +264,7 @@ shinyServer(
 	    })
 	    
 	    #----------------------------------------
-	    # Specify the class of the decision rules
+	    # Let user specify the class of the decision rules via checkboxGroupInput
 	    #----------------------------------------
 	    output$varRuleA <- renderUI({
 	      if (is.null(data())) return(NULL)
@@ -274,7 +274,7 @@ shinyServer(
 	      checkboxGroupInput("varRuleA", 
 	                         "Choose variables to specify the class of regimes. 
 	                         For simplicity, we are restrict to linear decision rule with the form
-	                         a + b x1 + c x2", 
+	                         a + b x1 + c x2. Please choose two variable names.", 
 	                         varName)
 	    })
 	    
@@ -346,7 +346,8 @@ shinyServer(
 	      starts <- c(0, 0, 0)
 	      pop.size <- 50
 	      #  browser();
-	      ft <- optimalSeq(moPropen = moPropA,
+	      #  augmented inverse prob weighted estimator
+	      aipwe <- optimalSeq(moPropen = moPropA,
 	                       moMain = moMainA,
 	                       moCont = moContA,
 	                       data = df,
@@ -358,12 +359,29 @@ shinyServer(
 	                       Domains = Domains)
 	      
 	      # coeff into data frame
-	      output$ftest <- renderText({ print(estimator(ft)) })
-	      
+	      output$aipwe <- renderText({ 
+	                        paste('The estimated optimal regime value using AIPWE is : ',
+	                              print(estimator(aipwe))) })})
+	      # # inverse prob weighted estimator
+	      # ipwe <- optimalSeq(moPropen = moPropA,
+	      #                     moMain = NULL,
+	      #                     moCont = NULL,
+	      #                     data = df,
+	      #                     response =yA,
+	      #                     txName = tx.varsA,
+	      #                     regimes = tx.rulesA,
+	      #                     pop.size = pop.size,
+	      #                     starting.values = starts,
+	      #                     Domains = Domains)
+	      # 
+	      # # coeff into data frame
+	      # output$ipwe <- renderText({paste('Here, we also output the estimated optimal regime value using IPWE (which is equivalent to leave moCont as NULL):', print(estimator(ipwe))) })
+	      # 
+	      # 
 	    
-	    ##--------------------------- classification --------------------------------------#
+	    ##--------------------------- classification method --------------------------------------#
 	    #------------------
-	    # Specify treatment
+	    # Let user specify treatment via selectInput
 	    #------------------
 	    output$varTrtC <- renderUI({
 	      if (is.null(data())) return(NULL)
@@ -375,7 +393,7 @@ shinyServer(
 	    })
 	    
 	    #-----------------
-	    # Specify response
+	    # Let user specify response via selectInput
 	    #-----------------
 	    output$varResponseC <- renderUI({
 	      if (is.null(data())) return(NULL)
@@ -387,7 +405,7 @@ shinyServer(
 	    })
 	    
 	    #-------------
-	    # Build moProp
+	    # Let user choose variable names for moProp via checkboxGroupInput
 	    #-------------
 	    output$varPropC <- renderUI({
 	      if (is.null(data())) return(NULL)
@@ -437,8 +455,7 @@ shinyServer(
 	      varName <- varName[!(varName %in% c(input$varTrtC, input$varResponseC)) ]
 	      checkboxGroupInput("varClass", 
 	                         "Choose variables to specify the class of regimes. 
-	                         For simplicity, we are restrict to linear decision rule with the form
-	                         a + b x1 + c x2", 
+	                         We only consider linear decision rule.",
 	                         varName)
 	    })
 	    
@@ -502,8 +519,7 @@ shinyServer(
 	                             solver.method =  'rpart' , 
 	                             solver.args = list(method = 'class'), 
 	                             predict.args = list(type= 'class'))
-	      
-	      
+	 
 	      # classification solve
 	      estClassOpt <- optimalClass(moPropen = moPropC,
 	                               moMain = moMainC,
@@ -515,7 +531,10 @@ shinyServer(
 	                               iter=0)
 	      
 	      # coeff into data frame
-	      output$optClass <- renderText({ print(estimator(estClassOpt)) })
+	      output$optClass <- renderText({
+	        paste( "The estimated optimal regime value using classificaiton method and AIPWE estimator is : ",
+	        print(estimator(estClassOpt))) })
+	      
 	      
 	      # output coef
 	      #output$coeffTbl = renderTable({
@@ -526,6 +545,5 @@ shinyServer(
 	      #output$plot2 <- renderPlot({plot(fitQ1, which=2)})
 	      #output$plot3 <- renderPlot({plot(fitQ1, which=3)})
 	      #output$plot4 <- renderPlot({plot(fitQ1, which=5)})
-	      })  
-	  })
-})
+	      })
+      })  

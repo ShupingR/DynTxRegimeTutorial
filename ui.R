@@ -159,24 +159,25 @@ body <- dashboardBody(
           plotOutput("plot0")
         ),
         tabPanel("Methods",
-          sidebarLayout(
-            sidebarPanel(
-              radioButtons("radio", label = h3("Choose a method"),
-                           choices = list("Outcome Regression" = 1, "AIPWE" = 2, "Classification Method" = 3), 
-                           selected = 1)),
-            mainPanel(
+            fluidPage(
+              fluidRow(wellPanel(  # radio buttons for conditionalPanel, allow user to choose methods
+              radioButtons("radio", label = h4("Choose a method"),
+                           choices = list("Outcome Regression" = 1, "AIPWE" = 2, 
+                                          "Classification Method" = 3), 
+                           selected = 1, inline=TRUE))),
               # Only show this panel if the plot type is a histogram
               conditionalPanel(
                 condition = "input.radio == '1'",
                 fluidPage(
                   sidebarLayout(
-                    sidebarPanel(
+                    sidebarPanel(# let user choose variable and models
                       uiOutput("varTrtR"),
                       uiOutput("varResponseR"),
                       uiOutput("varMainR"),
                       uiOutput("solverMainR"),
                       uiOutput("varContR"),
-                      uiOutput("solverContR")
+                      uiOutput("solverContR"),
+                      width =4
                     ),
                     mainPanel(
                       fluidPage(
@@ -185,24 +186,23 @@ body <- dashboardBody(
                         p("To build model objects for main effect (moMain) and
                           contrast (moCont). You may specify your treatment variable and response
                           varible below. You may also choose the covariates to include in and
-                          solver for each model. Here, we choose the solver to be lm. Yet,
+                          solver for each model. Here, we choose the solver to be 'lm'. Yet,
                           other methods, such as glm, can be used for each model independently.
                           This step can be achieved using the function buildModelObj(), followed by
                           call the qLearn() function to fit the models together."),
                         h4("Fit the model specified"),
                         actionButton("getmodelR", "GO"),
-                        p("The corresponding code:"),
-                        code(
-                        textOutput("myMainR"),
-                        textOutput("myContR"),
-                        textOutput("myFitQ1")),
+                        # h4("The corresponding code:"),
+                        # textOutput("myMainR"),
+                        # textOutput("myContR"),
+                        # textOutput("myFitQ1"),
                         h4("Extract the estimated coefficients"),
                         p("We may extract the estimated coefficients by  function coeff()"),
-                        code("coef(fitQ1)"),
+                        #code("coef(fitQ1)"),
                         tableOutput("coeffTbl"),
                         h4("Diagnostic plots"),
                         p("We may use the function plot() to obtain the diagnostic plots for fitted model"),
-                        code("plot(fitQ1)"),
+                       # code("plot(fitQ1)"),
                         fluidRow(
                           column(6, plotOutput("plot1")),
                           column(6, plotOutput("plot2"))
@@ -248,14 +248,12 @@ body <- dashboardBody(
                           gl for conditional expectations."),
                         h4("Estimate the optimal regime"),
                         actionButton("getmodelA", "GO"),
-                        p("The estimated optimal regime value is,"),
-                        uiOutput("ftest"),
-                        p("The corresponding code for build models:"),
-                        code(
-                        textOutput("myPropA"),
-                        textOutput("myMainA"),
-                        textOutput("myContA"))
-                       
+                        uiOutput("aipwe")
+                        # uiOutput("ipwe")
+                        # p("The corresponding code for build models:"),
+                        # textOutput("myPropA"),
+                        # textOutput("myMainA"),
+                        # textOutput("myContA")
                       )
                      )
                    )
@@ -288,8 +286,8 @@ body <- dashboardBody(
                           (moMain and moCont), You may specify your treatment variable 
                           and response varible You may also choose the covariates to include
                           in and solver for each model. You may also choose variables to specify
-                          the class of regimes. For simplicity, we are restrict to linear decision
-                          rule with the form a + b x1 + c x2."),
+                          the class of regimes. The class of regime is restricted to be linear 
+                          decision rule"),
                         h6("Estimate the optimal regime"),
                         actionButton("getmodelC", "GO"),
                         uiOutput("optClass")
@@ -303,7 +301,7 @@ body <- dashboardBody(
       )
     )
   )
-)))
+))
 
     
 
